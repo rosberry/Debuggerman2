@@ -2,13 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rosberry.android.debuggerman2">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Debuggerman2">
-        <activity android:name=".MainActivity"
+
+        <activity android:name=".SampleActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,5 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name="com.rosberry.android.debuggerman2.DebugAgent"
+            android:exported="false" />
     </application>
 </manifest>

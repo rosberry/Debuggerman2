@@ -11,9 +11,6 @@ android {
         targetSdk 31
     }
 
-    buildFeatures {
-        buildConfig false
-    }
     buildTypes {
         release {
             minifyEnabled false
