@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.rosberry.android.debuggerman2.DebugAgent"
+        <service android:name="com.rosberry.android.debuggerman2.DebugAgentService"
             android:exported="false" />
     </application>
 </manifest>

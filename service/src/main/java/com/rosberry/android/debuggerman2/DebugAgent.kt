@@ -1,95 +1,69 @@
 package com.rosberry.android.debuggerman2
 
-import android.app.Activity
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Build
+import android.content.IntentFilter
+import android.content.ServiceConnection
 import android.os.IBinder
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.os.bundleOf
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 
-class DebugAgent : Service() {
+class DebugAgent(
+    private val activity: AppCompatActivity
+) : BroadcastReceiver(), LifecycleEventObserver {
 
     companion object {
-        private const val ACTION_OPEN = "${BuildConfig.LIBRARY_PACKAGE_NAME}.debug.open"
-        private const val ACTION_START = "${BuildConfig.LIBRARY_PACKAGE_NAME}.agent.start"
+        const val ACTION_OPEN = "${BuildConfig.LIBRARY_PACKAGE_NAME}.debug.open"
+    }
 
-        private const val ARG_ACTIVITY_CLASS = "arg_activity_class"
+    private val connection: Connection by lazy { Connection() }
 
-        private const val CHANNEL_ID = "debug_agent"
-        private const val NOTIFICATION_ID = 1102
+    init {
+        activity.lifecycle.addObserver(this)
+    }
 
-        private var applicationContext: Context? = null
+    override fun onReceive(context: Context?, intent: Intent?) {
+        AlertDialog.Builder(activity)
+            .setMessage("Notification clicked")
+            .setTitle("Debug Agent")
+            .show()
+    }
 
-        fun start(activity: Activity) {
-            applicationContext = activity.applicationContext
-            applicationContext?.startService(Intent(applicationContext, DebugAgent::class.java).apply {
-                action = ACTION_START
-                putExtras(bundleOf(ARG_ACTIVITY_CLASS to activity::class.java))
-            })
-        }
-
-        fun stop() {
-            applicationContext?.run { stopService(Intent(this, DebugAgent::class.java)) }
-            applicationContext = null
-        }
-
-        fun onNewIntent(context: Context, intent: Intent?) {
-            if (intent?.action == ACTION_OPEN)
-                AlertDialog.Builder(context)
-                    .setMessage("")
-                    .create()
-                    .show()
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        when (event) {
+            Lifecycle.Event.ON_CREATE -> startService()
+            Lifecycle.Event.ON_DESTROY -> stopService()
+            else -> return
         }
     }
 
-    private val channelId: String get() = "$packageName.$CHANNEL_ID"
-    private val launchIntent: Intent?
-        get() = packageManager.getLaunchIntentForPackage(packageName)?.apply {
-            action = ACTION_OPEN
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+    private fun startService() {
+        activity.registerReceiver(this, IntentFilter(ACTION_OPEN))
+        activity.bindService(
+            Intent(activity, DebugAgentService::class.java),
+            connection,
+            Context.BIND_AUTO_CREATE or Context.BIND_ADJUST_WITH_ACTIVITY
+        )
+    }
+
+    private fun stopService() {
+        activity.unregisterReceiver(this)
+        activity.unbindService(connection)
+    }
+
+    private inner class Connection : ServiceConnection {
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+
         }
-    private val contentIntentFlags: Int
-        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        } else PendingIntent.FLAG_UPDATE_CURRENT
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (intent?.action == ACTION_START) showNotification()
+        override fun onServiceDisconnected(name: ComponentName?) {
 
-        return super.onStartCommand(intent, flags, startId)
-    }
-
-    override fun onBind(intent: Intent?): IBinder? = null
-
-    private fun showNotification() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createNotificationChannel()
-
-        val notification = NotificationCompat.Builder(applicationContext, channelId)
-            .setContentIntent(PendingIntent.getActivity(applicationContext, 0, launchIntent, contentIntentFlags))
-            .setVisibility(NotificationCompat.VISIBILITY_SECRET)
-            .setSmallIcon(android.R.drawable.ic_menu_compass)
-            .setPriority(NotificationCompat.PRIORITY_MAX)
-            .setContentText("Click to open debug dialog")
-            .setContentTitle("Debug")
-            .build()
-
-        startForeground(NOTIFICATION_ID, notification)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotificationChannel() {
-        NotificationManagerCompat
-            .from(applicationContext)
-            .createNotificationChannel(
-                NotificationChannel(channelId, "Debug dialog", NotificationManager.IMPORTANCE_HIGH)
-            )
+        }
     }
 }
