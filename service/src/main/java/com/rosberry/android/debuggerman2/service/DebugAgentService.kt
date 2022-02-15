@@ -6,11 +6,10 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.os.IBinder
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.os.bundleOf
-import com.rosberry.android.debuggerman2.DebugAgent
 
 class DebugAgentService : Service() {
 
@@ -36,28 +35,16 @@ class DebugAgentService : Service() {
 
     override fun onBind(intent: Intent?): IBinder = Binder()
 
-    fun onServiceConnected() {
+    fun onServiceConnected(action: String) {
         notificationManager.cancel(NOTIFICATION_CRASH_ID)
-        startForeground(
-            NOTIFICATION_ID,
-            Notification.connected(
-                applicationContext,
-                channelId,
-                DebugAgent.ACTION_OPEN
-            )
-        )
+        startForeground(NOTIFICATION_ID, Notification.connected(applicationContext, channelId, action))
     }
 
-    fun onAppCrashed(activityClass: Class<Activity>, throwable: Throwable) {
+    fun onAppCrashed(activityClass: Class<Activity>, extras: Bundle) {
         notificationManager.cancel(NOTIFICATION_ID)
         notificationManager.notify(
             NOTIFICATION_CRASH_ID,
-            Notification.crashed(
-                applicationContext,
-                channelId,
-                activityClass,
-                bundleOf(DebugAgent.KEY_STACKTRACE to throwable.stackTraceToString())
-            )
+            Notification.crashed(applicationContext, channelId, activityClass, extras)
         )
     }
 
