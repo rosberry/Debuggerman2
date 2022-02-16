@@ -12,7 +12,7 @@ abstract class DebugAdapterDelegate(
 
     open val viewType: Int = layoutId
 
-    abstract fun isFor(item: Any): Boolean
+    abstract fun isFor(item: DebugItem): Boolean
 
     abstract fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder
 
