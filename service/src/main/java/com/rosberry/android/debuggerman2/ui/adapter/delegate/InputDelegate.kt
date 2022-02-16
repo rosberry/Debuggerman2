@@ -1,5 +1,6 @@
 package com.rosberry.android.debuggerman2.ui.adapter.delegate
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -21,6 +22,7 @@ class InputDelegate : DebugAdapterDelegate(R.layout.item_input) {
 
         holder.item = item
         holder.input.apply {
+            imeOptions = item.imeAction
             hint = item.hint
             setText(item.text)
         }
@@ -38,13 +40,15 @@ class InputDelegate : DebugAdapterDelegate(R.layout.item_input) {
                 item.onTextChanged?.invoke(text)
             }
             input.setOnEditorActionListener { input, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (actionId == item.imeAction) {
                     item.onDone?.invoke()
-                    input.clearFocus()
-                    input.context.getSystemService(InputMethodManager::class.java)
-                        .hideSoftInputFromWindow(input.windowToken, 0)
+                    input.run {
+                        clearFocus()
+                        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                            .hideSoftInputFromWindow(windowToken, 0)
+                    }
                 }
-                actionId == EditorInfo.IME_ACTION_DONE
+                actionId == item.imeAction
             }
         }
     }

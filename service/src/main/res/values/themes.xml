@@ -5,6 +5,12 @@
         <item name="bottomSheetStyle">@style/Debuggerman2Dialog</item>
     </style>
 
+    <style name="Theme.Debuggerman2Toggle" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorControlActivated">#FF666666</item>
+        <item name="colorSwitchThumbNormal">#FF888888</item>
+        <item name="android:colorForeground">#FF888888</item>
+    </style>
+
     <style name="Debuggerman2Dialog" parent="Widget.Material3.BottomSheet.Modal">
         <item name="android:paddingTop">8dp</item>
         <item name="android:background">@android:color/white</item>

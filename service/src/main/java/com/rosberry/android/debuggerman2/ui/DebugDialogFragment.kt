@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
@@ -14,15 +15,22 @@ import com.rosberry.android.debuggerman2.ui.adapter.DelegatedDebugAdapter
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.ButtonDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.HeaderDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.InputDelegate
+import com.rosberry.android.debuggerman2.ui.adapter.delegate.SelectorDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.ToggleDelegate
 
 open class DebugDialogFragment : BottomSheetDialogFragment() {
 
+    private enum class SelectorValue {
+        VALUE_1, VALUE_2, VALUE_3
+    }
+
     private val items = listOf<DebugItem>(
         DebugItem.Header("Test header"),
-        DebugItem.Toggle("Test toggle") { b -> toast("Toggle set to $b") },
-        DebugItem.Button("Test button") { toast("Button pressed") },
-        DebugItem.Input("Test input") { toast("On input IME action") }
+        DebugItem.Toggle("Test toggle") {},
+        DebugItem.Button("Test button") {},
+        DebugItem.Input("Test input", null, EditorInfo.IME_ACTION_SEARCH) {},
+        DebugItem.Input("Test input") {},
+        DebugItem.Selector("Test selector", SelectorValue.values().toList()) {}
     )
 
     private val debugAdapter: DelegatedDebugAdapter by lazy {
@@ -31,7 +39,8 @@ open class DebugDialogFragment : BottomSheetDialogFragment() {
                 HeaderDelegate(),
                 ToggleDelegate(),
                 ButtonDelegate(),
-                InputDelegate()
+                InputDelegate(),
+                SelectorDelegate()
             )
         }
     }
