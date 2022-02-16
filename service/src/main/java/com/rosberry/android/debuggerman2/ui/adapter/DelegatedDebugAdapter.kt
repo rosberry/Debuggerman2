@@ -8,17 +8,23 @@ class DelegatedDebugAdapter(
     private var items: List<DebugItem> = listOf()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val delegates = DelegateManager()
+    private val delegateManager = DelegateManager(items)
+
+    fun setItems(items: List<DebugItem>) {
+        this.items = items
+        delegateManager.onAdapterItemsChanged(items)
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount(): Int = items.size
 
-    override fun getItemViewType(position: Int): Int = delegates.getItemViewType(items[position])
+    override fun getItemViewType(position: Int): Int = delegateManager.getItemViewType(items[position])
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return delegates.onCreateViewHolder(parent, viewType)
+        return delegateManager.onCreateViewHolder(parent, viewType)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        delegates.onBindViewHolder(holder, items[position])
+        delegateManager.onBindViewHolder(holder, items[position])
     }
 }

@@ -12,11 +12,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.rosberry.android.debuggerman2.R
 import com.rosberry.android.debuggerman2.entity.DebugItem
 import com.rosberry.android.debuggerman2.ui.adapter.DelegatedDebugAdapter
-import com.rosberry.android.debuggerman2.ui.adapter.delegate.ButtonDelegate
-import com.rosberry.android.debuggerman2.ui.adapter.delegate.HeaderDelegate
-import com.rosberry.android.debuggerman2.ui.adapter.delegate.InputDelegate
-import com.rosberry.android.debuggerman2.ui.adapter.delegate.SelectorDelegate
-import com.rosberry.android.debuggerman2.ui.adapter.delegate.ToggleDelegate
 
 open class DebugDialogFragment : BottomSheetDialogFragment() {
 
@@ -24,26 +19,17 @@ open class DebugDialogFragment : BottomSheetDialogFragment() {
         VALUE_1, VALUE_2, VALUE_3
     }
 
-    private val items = listOf<DebugItem>(
+    private val items = listOf(
         DebugItem.Header("Test header"),
         DebugItem.Toggle("Test toggle") {},
         DebugItem.Button("Test button") {},
+        DebugItem.Button("Add item") {},
         DebugItem.Input("Test input", null, EditorInfo.IME_ACTION_SEARCH) {},
         DebugItem.Input("Test input") {},
         DebugItem.Selector("Test selector", SelectorValue.values().toList()) {}
     )
 
-    private val debugAdapter: DelegatedDebugAdapter by lazy {
-        DelegatedDebugAdapter(items).apply {
-            delegates.add(
-                HeaderDelegate(),
-                ToggleDelegate(),
-                ButtonDelegate(),
-                InputDelegate(),
-                SelectorDelegate()
-            )
-        }
-    }
+    private val debugAdapter: DelegatedDebugAdapter by lazy { DelegatedDebugAdapter(items) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -4,21 +4,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rosberry.android.debuggerman2.entity.DebugItem
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.DebugAdapterDelegate
+import kotlin.reflect.KClass
+import kotlin.reflect.full.createInstance
 
-class DelegateManager(vararg delegates: DebugAdapterDelegate) {
+class DelegateManager(items: List<DebugItem> = listOf()) {
 
     private val delegates: HashMap<Int, DebugAdapterDelegate> = hashMapOf()
 
     init {
-        add(*delegates)
+        onAdapterItemsChanged(items)
     }
 
-    fun add(vararg delegates: DebugAdapterDelegate) {
-        delegates.forEach { delegate -> this.delegates[delegate.viewType] = delegate }
-    }
-
-    fun remove(vararg delegates: DebugAdapterDelegate) {
-        delegates.forEach { delegate -> this.delegates.remove(delegate.viewType) }
+    fun onAdapterItemsChanged(items: List<DebugItem>) {
+        items.mapTo(HashSet(), DebugItem::delegateClass).run {
+            removeRedundantDelegates(this)
+            addMissingDelegates(this)
+        }
     }
 
     fun getItemViewType(item: DebugItem): Int {
@@ -38,5 +39,18 @@ class DelegateManager(vararg delegates: DebugAdapterDelegate) {
         delegates[holder.itemViewType]
             ?.onBindViewHolder(holder, item)
             ?: throw NullPointerException("No suitable delegate for ${holder::class.simpleName}")
+    }
+
+    private fun removeRedundantDelegates(kClasses: Set<KClass<*>>) {
+        delegates.entries.asSequence()
+            .filter { entry -> entry.value::class in kClasses }
+            .forEach { entry -> delegates.remove(entry.key) }
+    }
+
+    private fun addMissingDelegates(kClasses: Set<KClass<out DebugAdapterDelegate>>) {
+        kClasses.asSequence()
+            .filterNot { kClass -> delegates.any { entry -> entry.value::class == kClass } }
+            .map { kClass -> kClass.createInstance() }
+            .forEach { delegate -> delegates[delegate.viewType] = delegate }
     }
 }
