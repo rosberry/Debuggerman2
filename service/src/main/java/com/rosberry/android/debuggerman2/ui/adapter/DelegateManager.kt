@@ -2,17 +2,26 @@ package com.rosberry.android.debuggerman2.ui.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.rosberry.android.debuggerman2.ui.adapter.delegate.AdapterDelegate
+import com.rosberry.android.debuggerman2.entity.DebugItem
+import com.rosberry.android.debuggerman2.ui.adapter.delegate.DebugAdapterDelegate
 
-class DelegateManager<T1 : Any, T2 : AdapterDelegate<T1>>(vararg delegates: T2) {
+class DelegateManager(vararg delegates: DebugAdapterDelegate) {
 
-    private val delegates: HashMap<Int, T2> = hashMapOf()
+    private val delegates: HashMap<Int, DebugAdapterDelegate> = hashMapOf()
 
     init {
+        add(*delegates)
+    }
+
+    fun add(vararg delegates: DebugAdapterDelegate) {
         delegates.forEach { delegate -> this.delegates[delegate.viewType] = delegate }
     }
 
-    fun getItemViewType(item: Any): Int {
+    fun remove(vararg delegates: DebugAdapterDelegate) {
+        delegates.forEach { delegate -> this.delegates.remove(delegate.viewType) }
+    }
+
+    fun getItemViewType(item: DebugItem): Int {
         return delegates.values
             .find { delegate -> delegate.isFor(item) }
             ?.viewType
@@ -20,10 +29,14 @@ class DelegateManager<T1 : Any, T2 : AdapterDelegate<T1>>(vararg delegates: T2) 
     }
 
     fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return delegates[viewType]!!.createViewHolder(parent)
+        return delegates[viewType]
+            ?.createViewHolder(parent)
+            ?: throw NullPointerException("No suitable delegate for $viewType view type")
     }
 
-    fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: T1) {
-        delegates[holder.itemViewType]!!.onBindViewHolder(holder, item)
+    fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebugItem) {
+        delegates[holder.itemViewType]
+            ?.onBindViewHolder(holder, item)
+            ?: throw NullPointerException("No suitable delegate for ${holder::class.simpleName}")
     }
 }

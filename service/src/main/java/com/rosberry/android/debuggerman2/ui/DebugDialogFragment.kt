@@ -9,11 +9,16 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.rosberry.android.debuggerman2.R
 import com.rosberry.android.debuggerman2.entity.DebugItem
 import com.rosberry.android.debuggerman2.entity.HeaderItem
-import com.rosberry.android.debuggerman2.ui.adapter.DebugItemAdapter
+import com.rosberry.android.debuggerman2.ui.adapter.DelegatedDebugAdapter
+import com.rosberry.android.debuggerman2.ui.adapter.delegate.HeaderDelegate
 
 open class DebugDialogFragment : BottomSheetDialogFragment() {
 
-    private val debugAdapter: DebugItemAdapter by lazy { DebugItemAdapter(items) }
+    private val debugAdapter: DelegatedDebugAdapter by lazy {
+        DelegatedDebugAdapter(items).apply {
+            delegates.add(HeaderDelegate())
+        }
+    }
 
     private val items = listOf<DebugItem>(
         HeaderItem("Test header")

@@ -8,7 +8,7 @@ import com.rosberry.android.debuggerman2.R
 import com.rosberry.android.debuggerman2.entity.DebugItem
 import com.rosberry.android.debuggerman2.entity.HeaderItem
 
-class HeaderDelegate : DebugDelegate<HeaderItem>(R.layout.item_header) {
+class HeaderDelegate : DebugAdapterDelegate(R.layout.item_header) {
 
     override fun isFor(item: Any): Boolean = item is HeaderItem
 
