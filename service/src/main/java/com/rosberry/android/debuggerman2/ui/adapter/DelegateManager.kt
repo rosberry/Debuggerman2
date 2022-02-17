@@ -42,9 +42,7 @@ class DelegateManager(items: List<DebugItem> = listOf()) {
     }
 
     private fun removeRedundantDelegates(kClasses: Set<KClass<*>>) {
-        delegates.entries.asSequence()
-            .filter { entry -> entry.value::class in kClasses }
-            .forEach { entry -> delegates.remove(entry.key) }
+        delegates.entries.iterator().run { while (hasNext()) if (next().value::class in kClasses) remove() }
     }
 
     private fun addMissingDelegates(kClasses: Set<KClass<out DebugAdapterDelegate>>) {

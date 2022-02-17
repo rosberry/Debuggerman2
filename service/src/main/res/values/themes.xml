@@ -12,7 +12,6 @@
     </style>
 
     <style name="Debuggerman2Dialog" parent="Widget.Material3.BottomSheet.Modal">
-        <item name="android:paddingTop">8dp</item>
         <item name="android:background">@android:color/white</item>
     </style>
 </resources>
