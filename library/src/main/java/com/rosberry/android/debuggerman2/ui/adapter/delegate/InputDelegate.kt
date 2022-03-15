@@ -3,22 +3,21 @@ package com.rosberry.android.debuggerman2.ui.adapter.delegate
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.rosberry.android.debuggerman2.R
-import com.rosberry.android.debuggerman2.entity.DebugItem
+import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
-class InputDelegate : DebugAdapterDelegate(R.layout.item_input) {
+class InputDelegate : DebuggermanAdapterDelegate(R.layout.item_input) {
 
-    override fun isFor(item: DebugItem): Boolean = item is DebugItem.Input
+    override fun isFor(item: DebuggermanItem): Boolean = item is DebuggermanItem.Input
 
     override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = ViewHolder(inflate(parent))
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebugItem) {
-        if (holder !is ViewHolder || item !is DebugItem.Input) return
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebuggermanItem) {
+        if (holder !is ViewHolder || item !is DebuggermanItem.Input) return
 
         holder.item = item
         holder.input.apply {
@@ -32,7 +31,7 @@ class InputDelegate : DebugAdapterDelegate(R.layout.item_input) {
 
         val input: EditText = itemView.findViewById(R.id.input)
 
-        lateinit var item: DebugItem.Input
+        lateinit var item: DebuggermanItem.Input
 
         init {
             input.doOnTextChanged { text, _, _, _ ->

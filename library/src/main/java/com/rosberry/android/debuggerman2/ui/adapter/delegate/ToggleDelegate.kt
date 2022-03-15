@@ -5,16 +5,16 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.rosberry.android.debuggerman2.R
-import com.rosberry.android.debuggerman2.entity.DebugItem
+import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
-class ToggleDelegate : DebugAdapterDelegate(R.layout.item_toggle) {
+class ToggleDelegate : DebuggermanAdapterDelegate(R.layout.item_toggle) {
 
-    override fun isFor(item: DebugItem): Boolean = item is DebugItem.Toggle
+    override fun isFor(item: DebuggermanItem): Boolean = item is DebuggermanItem.Toggle
 
     override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = ViewHolder(inflate(parent))
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebugItem) {
-        if (holder !is ViewHolder || item !is DebugItem.Toggle) return
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebuggermanItem) {
+        if (holder !is ViewHolder || item !is DebuggermanItem.Toggle) return
 
         holder.toggle.apply {
             setOnCheckedChangeListener(null)

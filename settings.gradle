@@ -15,5 +15,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Debuggerman2"
-include ':service'
+include ':library'
 include ':sample'

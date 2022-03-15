@@ -3,16 +3,16 @@ package com.rosberry.android.debuggerman2.ui.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.rosberry.android.debuggerman2.entity.DebugItem
+import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
 class DelegatedDebugAdapter(
-    private var items: List<DebugItem> = listOf()
+    private var items: List<DebuggermanItem> = listOf()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val delegateManager = DelegateManager(items)
     private val diffCallback = DiffCallback()
 
-    fun setItems(items: List<DebugItem>) {
+    fun setItems(items: List<DebuggermanItem>) {
         val diffResult = diffCallback.calculateDiff(this.items, items)
 
         delegateManager.onAdapterItemsChanged(items)
@@ -34,10 +34,10 @@ class DelegatedDebugAdapter(
 
     private class DiffCallback : DiffUtil.Callback() {
 
-        private lateinit var old: List<DebugItem>
-        private lateinit var new: List<DebugItem>
+        private lateinit var old: List<DebuggermanItem>
+        private lateinit var new: List<DebuggermanItem>
 
-        fun calculateDiff(old: List<DebugItem>, new: List<DebugItem>): DiffUtil.DiffResult {
+        fun calculateDiff(old: List<DebuggermanItem>, new: List<DebuggermanItem>): DiffUtil.DiffResult {
             this.old = old
             this.new = new
 

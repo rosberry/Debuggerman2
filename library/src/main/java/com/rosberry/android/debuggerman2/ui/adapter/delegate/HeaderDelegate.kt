@@ -5,16 +5,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.rosberry.android.debuggerman2.R
-import com.rosberry.android.debuggerman2.entity.DebugItem
+import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
-class HeaderDelegate : DebugAdapterDelegate(R.layout.item_header) {
+class HeaderDelegate : DebuggermanAdapterDelegate(R.layout.item_header) {
 
-    override fun isFor(item: DebugItem): Boolean = item is DebugItem.Header
+    override fun isFor(item: DebuggermanItem): Boolean = item is DebuggermanItem.Header
 
     override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = ViewHolder(inflate(parent))
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebugItem) {
-        if (holder !is ViewHolder || item !is DebugItem.Header) return
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebuggermanItem) {
+        if (holder !is ViewHolder || item !is DebuggermanItem.Header) return
 
         holder.label.text = item.label
     }

@@ -8,12 +8,12 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.rosberry.android.debuggerman2.R
-import com.rosberry.android.debuggerman2.entity.DebugItem
+import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 import com.rosberry.android.debuggerman2.ui.adapter.DelegatedDebugAdapter
 
 open class DebuggermanDialog : BottomSheetDialogFragment() {
 
-    private val items: MutableList<DebugItem> = mutableListOf()
+    private val items: MutableList<DebuggermanItem> = mutableListOf()
 
     private val debugAdapter: DelegatedDebugAdapter by lazy { DelegatedDebugAdapter(items) }
 
@@ -36,12 +36,12 @@ open class DebuggermanDialog : BottomSheetDialogFragment() {
 
     protected open fun setup() {}
 
-    protected fun add(vararg items: DebugItem) {
+    protected fun add(vararg items: DebuggermanItem) {
         this.items.addAll(items)
         debugAdapter.setItems(this.items)
     }
 
-    protected fun remove(vararg items: DebugItem) {
+    protected fun remove(vararg items: DebuggermanItem) {
         this.items.removeAll(items)
         debugAdapter.setItems(this.items)
     }
