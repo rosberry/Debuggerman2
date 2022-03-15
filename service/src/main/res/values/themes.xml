@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Debuggerman2Dialog" parent="Theme.Material3.DayNight.BottomSheetDialog">
+    <style name="Theme.Debuggerman2Dialog" parent="Theme.Material3.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/Debuggerman2Dialog</item>
     </style>
 

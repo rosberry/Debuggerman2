@@ -13,10 +13,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.rosberry.android.debuggerman2.service.DebugAgentService
-import com.rosberry.android.debuggerman2.ui.DebugDialogFragment
+import com.rosberry.android.debuggerman2.ui.DebuggermanDialog
+import kotlin.reflect.KClass
+import kotlin.reflect.full.createInstance
 
-class DebugAgent(
-    private val activity: AppCompatActivity
+inline fun <reified T : DebuggermanDialog> DebuggermanAgent(activity: AppCompatActivity): DebuggermanAgent<T> {
+    return DebuggermanAgent(activity, T::class)
+}
+
+class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor(
+    private val activity: AppCompatActivity,
+    private val dialogClass: KClass<T>
 ) : BroadcastReceiver(), LifecycleEventObserver {
 
     companion object {
@@ -70,7 +77,7 @@ class DebugAgent(
 
     private fun showDialog() {
         activity.supportFragmentManager.run {
-            if (findFragmentByTag(TAG_DIALOG) == null) DebugDialogFragment().show(this, TAG_DIALOG)
+            if (findFragmentByTag(TAG_DIALOG) == null) dialogClass.createInstance().show(this, TAG_DIALOG)
         }
     }
 

@@ -6,12 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 
 class SampleActivity : AppCompatActivity() {
 
-    private lateinit var debugAgent: DebugAgent
+    private lateinit var debugAgent: DebuggermanAgent<SampleDebugDialog>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        debugAgent = DebugAgent(this)
+
+        debugAgent = DebuggermanAgent(this)
 
         findViewById<View>(R.id.btn_crash).setOnClickListener { throw Exception() }
     }

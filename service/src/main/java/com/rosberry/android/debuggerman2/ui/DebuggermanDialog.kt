@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -12,23 +11,9 @@ import com.rosberry.android.debuggerman2.R
 import com.rosberry.android.debuggerman2.entity.DebugItem
 import com.rosberry.android.debuggerman2.ui.adapter.DelegatedDebugAdapter
 
-open class DebugDialogFragment : BottomSheetDialogFragment() {
+open class DebuggermanDialog : BottomSheetDialogFragment() {
 
-    private enum class SelectorValue {
-        VALUE_1, VALUE_2, VALUE_3
-    }
-
-    private val addButton = DebugItem.Button("Add dynamic controls", 0, ::addItem)
-    private val dynamicButton = DebugItem.Button("Remove dynamic input", 0, ::removeItem)
-    private val dynamicInput = DebugItem.Input("Dynamic input", null, EditorInfo.IME_ACTION_SEARCH) {}
-    private val items = listOf(
-        DebugItem.Header("Example static header"),
-        DebugItem.Toggle("Example static toggle") {},
-        DebugItem.Button("Example static button") {},
-        DebugItem.Input("Example static input") {},
-        DebugItem.Selector("Example static selector", SelectorValue.values().toList()) {},
-        addButton
-    )
+    private val items: MutableList<DebugItem> = mutableListOf()
 
     private val debugAdapter: DelegatedDebugAdapter by lazy { DelegatedDebugAdapter(items) }
 
@@ -43,16 +28,21 @@ open class DebugDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setup()
         view.findViewById<RecyclerView>(R.id.list_debug_item).run {
             adapter = debugAdapter
         }
     }
 
-    private fun addItem() {
-        debugAdapter.setItems(items - addButton + dynamicInput + dynamicButton)
+    protected open fun setup() {}
+
+    protected fun add(vararg items: DebugItem) {
+        this.items.addAll(items)
+        debugAdapter.setItems(this.items)
     }
 
-    private fun removeItem() {
-        debugAdapter.setItems(items)
+    protected fun remove(vararg items: DebugItem) {
+        this.items.removeAll(items)
+        debugAdapter.setItems(this.items)
     }
 }
