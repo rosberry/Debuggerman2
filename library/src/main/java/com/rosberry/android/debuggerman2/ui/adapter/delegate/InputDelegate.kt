@@ -12,24 +12,17 @@ import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
 class InputDelegate : DebuggermanAdapterDelegate(R.layout.item_input) {
 
-    override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = ViewHolder(inflate(parent))
+    override fun createViewHolder(parent: ViewGroup): ViewHolder = ViewHolder(inflate(parent))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebuggermanItem) {
-        if (holder !is ViewHolder || item !is DebuggermanItem.Input) return
-
-        holder.item = item
-        holder.input.apply {
-            imeOptions = item.imeAction
-            hint = item.hint
-            setText(item.text)
-        }
+        if (holder is ViewHolder && item is DebuggermanItem.Input) holder.bind(item)
     }
 
-    private class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val input: EditText = itemView.findViewById(R.id.input)
+        private val input: EditText = itemView.findViewById(R.id.input)
 
-        lateinit var item: DebuggermanItem.Input
+        private lateinit var item: DebuggermanItem.Input
 
         init {
             input.doOnTextChanged { text, _, _, _ ->
@@ -46,6 +39,15 @@ class InputDelegate : DebuggermanAdapterDelegate(R.layout.item_input) {
                     }
                 }
                 actionId == item.imeAction
+            }
+        }
+
+        fun bind(item: DebuggermanItem.Input) {
+            this.item = item
+            input.apply {
+                imeOptions = item.imeAction
+                hint = item.hint
+                setText(item.text)
             }
         }
     }

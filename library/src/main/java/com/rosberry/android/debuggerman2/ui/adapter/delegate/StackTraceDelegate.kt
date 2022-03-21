@@ -13,32 +13,28 @@ import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
 class StackTraceDelegate : DebuggermanAdapterDelegate(R.layout.item_stacktrace) {
 
-    override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = ViewHolder(inflate(parent))
+    override fun createViewHolder(parent: ViewGroup): ViewHolder = ViewHolder(inflate(parent))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebuggermanItem) {
-        if (holder !is ViewHolder || item !is DebuggermanItem.StackTrace) return
-
-        holder.item = item
-        holder.textStackTrace.text = item.stackTrace
-        holder.update(item.isExpanded)
+        if (holder is ViewHolder && item is DebuggermanItem.StackTrace) holder.bind(item)
     }
 
-    private class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         companion object {
             private const val TEXT_COLLAPSE = "Stack trace captured -"
             private const val TEXT_EXPAND = "Stack trace captured +"
         }
 
-        val textTitle: TextView = itemView.findViewById(R.id.text_title)
-        val textStackTrace: TextView = itemView.findViewById(R.id.text_stacktrace)
+        private val textStackTrace: TextView = itemView.findViewById(R.id.text_stacktrace)
+        private val textTitle: TextView = itemView.findViewById(R.id.text_title)
 
-        lateinit var item: DebuggermanItem.StackTrace
+        private lateinit var item: DebuggermanItem.StackTrace
 
         init {
             textStackTrace.setOnClickListener {
                 (it.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
-                    .setPrimaryClip(ClipData.newPlainText("Stack trace", item.stackTrace.trim()))
+                    .setPrimaryClip(ClipData.newPlainText("Stack trace", item.stackTrace))
             }
             textTitle.setOnClickListener {
                 item.isExpanded = !item.isExpanded
@@ -46,7 +42,13 @@ class StackTraceDelegate : DebuggermanAdapterDelegate(R.layout.item_stacktrace) 
             }
         }
 
-        fun update(isExpanded: Boolean) {
+        fun bind(item: DebuggermanItem.StackTrace) {
+            this.item = item
+            textStackTrace.text = item.stackTrace
+            update(item.isExpanded)
+        }
+
+        private fun update(isExpanded: Boolean) {
             textStackTrace.updateLayoutParams { height = if (isExpanded) ViewGroup.LayoutParams.WRAP_CONTENT else 0 }
             textTitle.text = if (isExpanded) TEXT_COLLAPSE else TEXT_EXPAND
         }

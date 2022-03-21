@@ -9,22 +9,18 @@ import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
 class SelectorDelegate : DebuggermanAdapterDelegate(R.layout.item_selector) {
 
-    override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = ViewHolder(inflate(parent))
+    override fun createViewHolder(parent: ViewGroup): ViewHolder = ViewHolder(inflate(parent))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebuggermanItem) {
-        if (holder !is ViewHolder || item !is DebuggermanItem.Selector) return
-
-        holder.item = item
-        holder.label.text = item.label
-        holder.value.text = item.selected.toString()
+        if (holder is ViewHolder && item is DebuggermanItem.Selector) holder.bind(item)
     }
 
-    private class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val label: TextView = itemView.findViewById(R.id.label)
-        val value: TextView = itemView.findViewById(R.id.value)
+        private val label: TextView = itemView.findViewById(R.id.label)
+        private val value: TextView = itemView.findViewById(R.id.value)
 
-        lateinit var item: DebuggermanItem.Selector
+        private lateinit var item: DebuggermanItem.Selector
 
         init {
             itemView.setOnClickListener {
@@ -33,10 +29,15 @@ class SelectorDelegate : DebuggermanAdapterDelegate(R.layout.item_selector) {
                 val value = item.items[next]
 
                 this.value.text = value.toString()
-
                 item.selected = value
                 item.listener.invoke(value)
             }
+        }
+
+        fun bind(item: DebuggermanItem.Selector) {
+            this.item = item
+            label.text = item.label
+            value.text = item.selected.toString()
         }
     }
 }
