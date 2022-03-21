@@ -9,8 +9,6 @@ import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
 class ButtonDelegate : DebuggermanAdapterDelegate(R.layout.item_button) {
 
-    override fun isFor(item: DebuggermanItem): Boolean = item is DebuggermanItem.Button
-
     override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = ViewHolder(inflate(parent))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebuggermanItem) {

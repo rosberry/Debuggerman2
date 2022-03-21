@@ -12,11 +12,11 @@ abstract class DebuggermanAdapterDelegate(
 
     open val viewType: Int = layoutId
 
-    abstract fun isFor(item: DebuggermanItem): Boolean
-
     abstract fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder
 
     abstract fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebuggermanItem)
+
+    open fun isFor(item: DebuggermanItem): Boolean = item.delegateClass == this::class
 
     protected fun inflate(parent: ViewGroup): View {
         return LayoutInflater.from(parent.context).inflate(layoutId, parent, false)

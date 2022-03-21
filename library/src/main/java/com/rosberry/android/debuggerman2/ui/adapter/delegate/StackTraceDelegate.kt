@@ -13,8 +13,6 @@ import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
 class StackTraceDelegate : DebuggermanAdapterDelegate(R.layout.item_stacktrace) {
 
-    override fun isFor(item: DebuggermanItem): Boolean = item is DebuggermanItem.StackTrace
-
     override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = ViewHolder(inflate(parent))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebuggermanItem) {
