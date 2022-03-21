@@ -7,6 +7,7 @@ import com.rosberry.android.debuggerman2.ui.adapter.delegate.DebuggermanAdapterD
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.HeaderDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.InputDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.SelectorDelegate
+import com.rosberry.android.debuggerman2.ui.adapter.delegate.StackTraceDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.ToggleDelegate
 import kotlin.reflect.KClass
 
@@ -44,4 +45,9 @@ sealed class DebuggermanItem(
         var selected: Any = items[0],
         val listener: (Any) -> Unit
     ) : DebuggermanItem(SelectorDelegate::class)
+
+    data class StackTrace(
+        val stackTrace: String,
+        var isExpanded: Boolean = false
+    ) : DebuggermanItem(StackTraceDelegate::class)
 }

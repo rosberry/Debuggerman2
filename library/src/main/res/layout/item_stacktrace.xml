@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
+
+    <TextView android:id="@+id/text_title"
+        style="@style/Debuggerman2Item"
+        android:layout_width="0dp"
+        android:text="Stack trace captured"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/btn_copy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView android:id="@+id/btn_copy"
+        style="@style/Debuggerman2Item"
+        android:layout_width="wrap_content"
+        android:alpha="0.5"
+        android:text="Copy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView android:id="@+id/text_stacktrace"
+        style="@style/Debuggerman2Item"
+        android:layout_height="0dp"
+        android:paddingTop="0dp"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_title"
+        tools:ignore="SmallSp"
+        tools:text="2022-03-21 17:49:33.452 18291-18291/com.rosberry.android.debuggerman2 E/AndroidRuntime: FATAL EXCEPTION: main
+    Process: com.rosberry.android.debuggerman2, PID: 18291
+    java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+        at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:602)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:947)
+     Caused by: java.lang.reflect.InvocationTargetException
+        at java.lang.reflect.Method.invoke(Native Method)
+        at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:592)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:947) 
+     Caused by: java.lang.Exception
+        at com.rosberry.android.debuggerman2.MenuFragment.onViewCreated$lambda-2$lambda-0(MenuFragment.kt:11)
+        at com.rosberry.android.debuggerman2.MenuFragment.$r8$lambda$BLpi3Ux57GRWBLdAatv0AYu1tqA(Unknown Source:0)
+        at com.rosberry.android.debuggerman2.MenuFragment$$ExternalSyntheticLambda1.onClick(Unknown Source:0)
+        at android.view.View.performClick(View.java:7448)
+        at com.google.android.material.button.MaterialButton.performClick(MaterialButton.java:1131)
+        at android.view.View.performClickInternal(View.java:7425)
+        at android.view.View.access$3600(View.java:810)
+        at android.view.View$PerformClick.run(View.java:28305)
+        at android.os.Handler.handleCallback(Handler.java:938)
+        at android.os.Handler.dispatchMessage(Handler.java:99)
+        at android.os.Looper.loop(Looper.java:223)
+        at android.app.ActivityThread.main(ActivityThread.java:7656)
+        at java.lang.reflect.Method.invoke(Native Method) 
+        at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:592) 
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:947) " />
+</androidx.constraintlayout.widget.ConstraintLayout>

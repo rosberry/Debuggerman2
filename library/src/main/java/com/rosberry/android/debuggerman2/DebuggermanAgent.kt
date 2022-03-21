@@ -40,7 +40,6 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
     private var defaultExceptionHandler: Thread.UncaughtExceptionHandler? = null
 
     init {
-        activity.lifecycle.addObserver(this)
         defaultExceptionHandler = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
             connection.service?.onAppCrashed(
@@ -49,12 +48,12 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
             )
             defaultExceptionHandler?.uncaughtException(thread, throwable)
         }
+        activity.intent.getStringExtra(KEY_STACKTRACE)?.let { dynamicItems.add(DebuggermanItem.StackTrace(it)) }
+        activity.lifecycle.addObserver(this)
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        when (intent?.action) {
-            ACTION_OPEN -> showDialog()
-        }
+        if (intent?.action == ACTION_OPEN) showDialog()
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
