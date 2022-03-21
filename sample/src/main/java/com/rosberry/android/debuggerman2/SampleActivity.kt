@@ -1,8 +1,8 @@
 package com.rosberry.android.debuggerman2
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
 class SampleActivity : AppCompatActivity() {
 
@@ -14,6 +14,17 @@ class SampleActivity : AppCompatActivity() {
 
         debugAgent = DebuggermanAgent(this)
 
-        findViewById<View>(R.id.btn_crash).setOnClickListener { throw Exception() }
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_app, MenuFragment())
+            .commit()
+    }
+
+    fun addDebugItems(items: Collection<DebuggermanItem>) {
+        debugAgent.add(items)
+    }
+
+    fun removeDebugItems(items: Collection<DebuggermanItem>) {
+        debugAgent.remove(items)
     }
 }

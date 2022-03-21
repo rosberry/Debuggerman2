@@ -13,7 +13,7 @@ import com.rosberry.android.debuggerman2.ui.adapter.DelegatedDebugAdapter
 
 open class DebuggermanDialog : BottomSheetDialogFragment() {
 
-    private val items: MutableList<DebuggermanItem> = mutableListOf()
+    protected open val items: MutableList<DebuggermanItem> = mutableListOf()
 
     private val debugAdapter: DelegatedDebugAdapter by lazy { DelegatedDebugAdapter(items) }
 
@@ -28,20 +28,15 @@ open class DebuggermanDialog : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setup()
-        view.findViewById<RecyclerView>(R.id.list_debug_item).run {
-            adapter = debugAdapter
-        }
+        view.findViewById<RecyclerView>(R.id.list_debug_item).adapter = debugAdapter
     }
 
-    protected open fun setup() {}
-
-    protected fun add(vararg items: DebuggermanItem) {
+    internal fun add(items: Collection<DebuggermanItem>) {
         this.items.addAll(items)
         debugAdapter.setItems(this.items)
     }
 
-    protected fun remove(vararg items: DebuggermanItem) {
+    internal fun remove(items: Collection<DebuggermanItem>) {
         this.items.removeAll(items)
         debugAdapter.setItems(this.items)
     }

@@ -12,6 +12,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 import com.rosberry.android.debuggerman2.service.DebugAgentService
 import com.rosberry.android.debuggerman2.ui.DebuggermanDialog
 import kotlin.reflect.KClass
@@ -33,6 +34,9 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
     }
 
     private val connection: Connection by lazy { Connection() }
+
+    private val dynamicItems: MutableList<DebuggermanItem> by lazy { mutableListOf() }
+
     private var defaultExceptionHandler: Thread.UncaughtExceptionHandler? = null
 
     init {
@@ -61,6 +65,16 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
         }
     }
 
+    fun add(items: Collection<DebuggermanItem>) {
+        this.dynamicItems.addAll(items)
+        (activity.supportFragmentManager.findFragmentByTag(TAG_DIALOG) as? DebuggermanDialog)?.add(items)
+    }
+
+    fun remove(items: Collection<DebuggermanItem>) {
+        this.dynamicItems.removeAll(items)
+        (activity.supportFragmentManager.findFragmentByTag(TAG_DIALOG) as? DebuggermanDialog)?.remove(items)
+    }
+
     private fun startAgent() {
         activity.registerReceiver(this, IntentFilter(ACTION_OPEN))
         activity.bindService(
@@ -77,7 +91,11 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
 
     private fun showDialog() {
         activity.supportFragmentManager.run {
-            if (findFragmentByTag(TAG_DIALOG) == null) dialogClass.createInstance().show(this, TAG_DIALOG)
+            if (findFragmentByTag(TAG_DIALOG) == null)
+                dialogClass
+                    .createInstance()
+                    .apply { add(dynamicItems) }
+                    .show(this, TAG_DIALOG)
         }
     }
 
