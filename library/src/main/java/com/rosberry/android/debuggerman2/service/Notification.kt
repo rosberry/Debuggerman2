@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.core.app.NotificationCompat
+import kotlin.random.Random
 
 @SuppressLint("LaunchActivityFromNotification")
 object Notification {
@@ -42,7 +43,7 @@ object Notification {
         extras: Bundle
     ): Notification {
         val intent = Intent(context, activityClass).apply { putExtras(extras) }
-        val pendingIntent = PendingIntent.getActivity(context, 2, intent, actionFlags)
+        val pendingIntent = PendingIntent.getActivity(context, Random.nextInt(), intent, actionFlags)
 
         return NotificationCompat.Builder(context, channelId)
             .setVisibility(NotificationCompat.VISIBILITY_SECRET)

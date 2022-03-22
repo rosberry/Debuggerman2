@@ -13,8 +13,8 @@ class MenuFragment : SampleFragment(R.layout.fragment_menu) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.run {
-            findViewById<View>(R.id.btn_crash_1).setOnClickListener { throw Exception("Crash button 1 Pressed") }
-            findViewById<View>(R.id.btn_crash_2).setOnClickListener { throw Exception("Crash button 2 Pressed") }
+            findViewById<View>(R.id.btn_crash_1).setOnClickListener { throw Exception("Crash button 1 pressed") }
+            findViewById<View>(R.id.btn_crash_2).setOnClickListener { throw Exception("Crash button 2 pressed") }
             findViewById<View>(R.id.btn_dynamic).setOnClickListener { openDynamicFragment() }
             findViewById<View>(R.id.btn_delayed).setOnClickListener { openDelayedFragment() }
         }
