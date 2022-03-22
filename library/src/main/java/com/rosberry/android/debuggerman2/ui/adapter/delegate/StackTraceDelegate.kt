@@ -22,8 +22,8 @@ class StackTraceDelegate : DebuggermanAdapterDelegate(R.layout.item_stacktrace) 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         companion object {
-            private const val TEXT_COLLAPSE = "Stack trace captured -"
-            private const val TEXT_EXPAND = "Stack trace captured +"
+            private const val TEXT_COLLAPSE = "Collapse stack trace"
+            private const val TEXT_EXPAND = "Expand stack trace"
         }
 
         private val textStackTrace: TextView = itemView.findViewById(R.id.text_stacktrace)

@@ -5,5 +5,4 @@
     style="@style/Debuggerman2Item"
     android:background="?attr/selectableItemBackground"
     android:drawablePadding="8dp"
-    android:textStyle="bold"
     tools:text="Button" />

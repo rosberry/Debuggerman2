@@ -32,7 +32,7 @@ open class DebuggermanDialog : BottomSheetDialogFragment() {
     }
 
     internal fun add(items: Collection<DebuggermanItem>) {
-        this.items.addAll(items)
+        this.items.addAll(0, items)
         debugAdapter.setItems(this.items)
     }
 

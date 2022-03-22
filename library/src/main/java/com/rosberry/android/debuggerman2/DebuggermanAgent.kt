@@ -33,6 +33,9 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
         private const val TAG_DIALOG = "${BuildConfig.LIBRARY_PACKAGE_NAME}.tag.dialog"
     }
 
+    private val dialog: DebuggermanDialog?
+        get() = activity.supportFragmentManager.findFragmentByTag(TAG_DIALOG) as? DebuggermanDialog
+
     private val connection: Connection by lazy { Connection() }
 
     private val dynamicItems: MutableList<DebuggermanItem> by lazy { mutableListOf() }
@@ -59,6 +62,7 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         when (event) {
             Lifecycle.Event.ON_CREATE -> startAgent()
+            Lifecycle.Event.ON_STOP -> hideDialog()
             Lifecycle.Event.ON_DESTROY -> stopAgent()
             else -> return
         }
@@ -66,12 +70,12 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
 
     fun add(items: Collection<DebuggermanItem>) {
         this.dynamicItems.addAll(items)
-        (activity.supportFragmentManager.findFragmentByTag(TAG_DIALOG) as? DebuggermanDialog)?.add(items)
+        dialog?.add(items)
     }
 
     fun remove(items: Collection<DebuggermanItem>) {
         this.dynamicItems.removeAll(items)
-        (activity.supportFragmentManager.findFragmentByTag(TAG_DIALOG) as? DebuggermanDialog)?.remove(items)
+        dialog?.remove(items)
     }
 
     private fun startAgent() {
@@ -95,6 +99,16 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
                     .createInstance()
                     .apply { add(dynamicItems) }
                     .show(this, TAG_DIALOG)
+        }
+    }
+
+    private fun hideDialog() {
+        activity.supportFragmentManager.run {
+            findFragmentByTag(TAG_DIALOG)?.let { fragment ->
+                this.beginTransaction()
+                    .remove(fragment)
+                    .commit()
+            }
         }
     }
 

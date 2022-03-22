@@ -3,12 +3,11 @@ package com.rosberry.android.debuggerman2
 import android.os.Bundle
 import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
-class DynamicFragment : SampleFragment(R.layout.fragment_dynamic) {
+class DelayedFragment : SampleFragment() {
 
-    private val items: List<DebuggermanItem> = listOf(
-        DebuggermanItem.Toggle("Dynamic toggle", "Dynamic controls") {},
-        DebuggermanItem.Button("Dynamic button", "Dynamic controls") {},
-    )
+    private val items = listOf(DebuggermanItem.Button("Close", "Delayed Fragment") {
+        parentFragmentManager.popBackStack()
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

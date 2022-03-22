@@ -3,7 +3,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toggle"
     style="@style/Debuggerman2Item"
-    android:checked="true"
-    android:textStyle="bold"
     android:theme="@style/Theme.Debuggerman2Toggle"
     tools:text="Toggle" />

@@ -11,11 +11,10 @@
     <TextView android:id="@+id/text_title"
         style="@style/Debuggerman2Item"
         android:layout_width="0dp"
-        android:text="Stack trace captured"
-        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/btn_copy"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Captured stack trace" />
 
     <TextView android:id="@+id/btn_copy"
         style="@style/Debuggerman2Item"

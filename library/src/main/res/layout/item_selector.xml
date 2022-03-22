@@ -9,7 +9,6 @@
     <TextView android:id="@+id/label"
         style="@style/Debuggerman2Item"
         android:layout_width="wrap_content"
-        android:textStyle="bold"
         tools:text="Label" />
 
     <TextView android:id="@+id/value"
