@@ -10,16 +10,11 @@ class DelegatedDebugAdapter(
     private var items: List<DebuggermanItem> = listOf()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val delegateManager = DelegateManager(items)
+    private val delegateManager by lazy { DelegateManager(items) }
     private val diffCallback = DiffCallback()
 
-    fun setItems(items: List<DebuggermanItem>) {
-        val newItems = items.insertGroupHeaders()
-        val diffResult = diffCallback.calculateDiff(this.items, newItems)
-
-        delegateManager.onAdapterItemsChanged(newItems)
-        this@DelegatedDebugAdapter.items = newItems
-        diffResult.dispatchUpdatesTo(this@DelegatedDebugAdapter)
+    init {
+        if (items.isNotEmpty()) items = items.insertGroupHeaders()
     }
 
     override fun getItemCount(): Int = items.size
@@ -32,6 +27,15 @@ class DelegatedDebugAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         delegateManager.onBindViewHolder(holder, items[position])
+    }
+
+    fun setItems(items: List<DebuggermanItem>) {
+        val newItems = items.insertGroupHeaders()
+        val diffResult = diffCallback.calculateDiff(this.items, newItems)
+
+        delegateManager.onAdapterItemsChanged(newItems)
+        this@DelegatedDebugAdapter.items = newItems
+        diffResult.dispatchUpdatesTo(this@DelegatedDebugAdapter)
     }
 
     private fun List<DebuggermanItem>.insertGroupHeaders(): List<DebuggermanItem> {

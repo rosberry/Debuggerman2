@@ -62,7 +62,6 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         when (event) {
             Lifecycle.Event.ON_CREATE -> startAgent()
-            Lifecycle.Event.ON_STOP -> hideDialog()
             Lifecycle.Event.ON_DESTROY -> stopAgent()
             else -> return
         }
