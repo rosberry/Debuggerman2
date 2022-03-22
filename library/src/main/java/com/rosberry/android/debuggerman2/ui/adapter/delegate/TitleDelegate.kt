@@ -7,19 +7,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rosberry.android.debuggerman2.R
 import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
-class HeaderDelegate : DebuggermanAdapterDelegate(R.layout.item_header) {
+class TitleDelegate : DebuggermanAdapterDelegate(R.layout.item_title) {
 
     override fun createViewHolder(parent: ViewGroup): ViewHolder = ViewHolder(inflate(parent))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebuggermanItem) {
-        if (holder is ViewHolder && item is DebuggermanItem.Header) holder.bind(item)
+        if (holder is ViewHolder && item is DebuggermanItem.Title) holder.bind(item)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         private val label: TextView = itemView.findViewById(R.id.label)
 
-        fun bind(item: DebuggermanItem.Header) {
+        fun bind(item: DebuggermanItem.Title) {
             label.text = item.label
         }
     }

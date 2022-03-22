@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rosberry.android.debuggerman2.entity.DebuggermanItem
-import com.rosberry.android.debuggerman2.entity.DebuggermanItem.Header
+import com.rosberry.android.debuggerman2.entity.DebuggermanItem.Title
 
 class DelegatedDebugAdapter(
     private var items: List<DebuggermanItem> = listOf()
@@ -40,7 +40,7 @@ class DelegatedDebugAdapter(
             groups.keys
                 .sortedWith(nullsLast { _, _ -> 0 })
                 .forEach { group ->
-                    if (group != null) this.add(Header(group))
+                    if (group != null) this.add(Title(group))
                     groups[group]?.let(this::addAll)
                 }
         }

@@ -4,21 +4,21 @@ import android.view.inputmethod.EditorInfo
 import androidx.annotation.DrawableRes
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.ButtonDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.DebuggermanAdapterDelegate
-import com.rosberry.android.debuggerman2.ui.adapter.delegate.HeaderDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.InputDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.SelectorDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.StackTraceDelegate
+import com.rosberry.android.debuggerman2.ui.adapter.delegate.TitleDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.ToggleDelegate
 import kotlin.reflect.KClass
 
-sealed class DebuggermanItem(
+open class DebuggermanItem(
     val delegateClass: KClass<out DebuggermanAdapterDelegate>,
     open val group: String? = null
 ) {
 
-    data class Header(
+    data class Title(
         val label: String
-    ) : DebuggermanItem(HeaderDelegate::class)
+    ) : DebuggermanItem(TitleDelegate::class)
 
     data class Toggle(
         val label: String,
