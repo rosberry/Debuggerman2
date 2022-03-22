@@ -10,10 +10,12 @@ class SampleDebugDialog : DebuggermanDialog() {
     }
 
     override val items: MutableList<DebuggermanItem> = mutableListOf(
-        DebuggermanItem.Header("Example static header"),
-        DebuggermanItem.Toggle("Example static toggle") {},
-        DebuggermanItem.Button("Example static button") {},
-        DebuggermanItem.Input("Example static input") {},
-        DebuggermanItem.Selector("Example static selector", SelectorValue.values().toList()) {}
+        DebuggermanItem.Toggle("Static toggle", "Static controls") {},
+        DebuggermanItem.Button("Static button", "Static controls") {},
+        DebuggermanItem.Button("Static loose button I") {},
+        DebuggermanItem.Button("Static loose button II") {},
+        DebuggermanItem.Button("Static loose button III") {},
+        DebuggermanItem.Input("Static input", "Static controls") {},
+        DebuggermanItem.Selector("Static selector", SelectorValue.values().toList(), "Static controls") {}
     )
 }

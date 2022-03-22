@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rosberry.android.debuggerman2.entity.DebuggermanItem
+import com.rosberry.android.debuggerman2.entity.DebuggermanItem.Header
 
 class DelegatedDebugAdapter(
     private var items: List<DebuggermanItem> = listOf()
@@ -13,10 +14,11 @@ class DelegatedDebugAdapter(
     private val diffCallback = DiffCallback()
 
     fun setItems(items: List<DebuggermanItem>) {
-        val diffResult = diffCallback.calculateDiff(this.items, items)
+        val newItems = items.insertGroupHeaders()
+        val diffResult = diffCallback.calculateDiff(this.items, newItems)
 
-        delegateManager.onAdapterItemsChanged(items)
-        this@DelegatedDebugAdapter.items = items
+        delegateManager.onAdapterItemsChanged(newItems)
+        this@DelegatedDebugAdapter.items = newItems
         diffResult.dispatchUpdatesTo(this@DelegatedDebugAdapter)
     }
 
@@ -30,6 +32,18 @@ class DelegatedDebugAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         delegateManager.onBindViewHolder(holder, items[position])
+    }
+
+    private fun List<DebuggermanItem>.insertGroupHeaders(): List<DebuggermanItem> {
+        val groups = groupBy(DebuggermanItem::group)
+        return mutableListOf<DebuggermanItem>().apply {
+            groups.keys
+                .sortedWith(nullsLast { _, _ -> 0 })
+                .forEach { group ->
+                    if (group != null) this.add(Header(group))
+                    groups[group]?.let(this::addAll)
+                }
+        }
     }
 
     private class DiffCallback : DiffUtil.Callback() {

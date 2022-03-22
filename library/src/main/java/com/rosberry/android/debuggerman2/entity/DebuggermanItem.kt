@@ -12,7 +12,8 @@ import com.rosberry.android.debuggerman2.ui.adapter.delegate.ToggleDelegate
 import kotlin.reflect.KClass
 
 sealed class DebuggermanItem(
-    val delegateClass: KClass<out DebuggermanAdapterDelegate>
+    val delegateClass: KClass<out DebuggermanAdapterDelegate>,
+    open val group: String? = null
 ) {
 
     data class Header(
@@ -21,18 +22,21 @@ sealed class DebuggermanItem(
 
     data class Toggle(
         val label: String,
+        override val group: String? = null,
         var isChecked: Boolean = false,
         val listener: (Boolean) -> Unit
     ) : DebuggermanItem(ToggleDelegate::class)
 
     data class Button(
         val label: String,
+        override val group: String? = null,
         @DrawableRes val icon: Int = 0,
         val listener: () -> Unit
     ) : DebuggermanItem(ButtonDelegate::class)
 
     data class Input(
         val hint: String,
+        override val group: String? = null,
         var text: CharSequence? = null,
         val imeAction: Int = EditorInfo.IME_ACTION_DONE,
         val onTextChanged: ((CharSequence?) -> Unit)? = null,
@@ -42,12 +46,14 @@ sealed class DebuggermanItem(
     data class Selector(
         val label: String,
         val items: List<Any>,
+        override val group: String? = null,
         var selected: Any = items[0],
         val listener: (Any) -> Unit
     ) : DebuggermanItem(SelectorDelegate::class)
 
     data class StackTrace(
         val stackTrace: String,
+        override val group: String? = null,
         var isExpanded: Boolean = false
     ) : DebuggermanItem(StackTraceDelegate::class)
 }

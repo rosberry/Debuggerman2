@@ -11,9 +11,8 @@ class DynamicFragment : Fragment(R.layout.fragment_dynamic) {
     private val activity: SampleActivity get() = requireActivity() as SampleActivity
 
     private val items: List<DebuggermanItem> = listOf(
-        DebuggermanItem.Header("Example dynamic header"),
-        DebuggermanItem.Toggle("Example dynamic toggle") {},
-        DebuggermanItem.Button("Example dynamic button") {},
+        DebuggermanItem.Toggle("Dynamic toggle", "Dynamic controls") {},
+        DebuggermanItem.Button("Dynamic button", "Dynamic controls") {},
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

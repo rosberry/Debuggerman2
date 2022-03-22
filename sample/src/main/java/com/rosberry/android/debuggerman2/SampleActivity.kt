@@ -9,10 +9,10 @@ class SampleActivity : AppCompatActivity() {
     private lateinit var debugAgent: DebuggermanAgent<SampleDebugDialog>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        debugAgent = DebuggermanAgent(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        debugAgent = DebuggermanAgent(this)
 
         supportFragmentManager
             .beginTransaction()
