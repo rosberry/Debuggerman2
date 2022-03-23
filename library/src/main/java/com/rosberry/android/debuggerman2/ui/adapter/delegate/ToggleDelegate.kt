@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rosberry.android.debuggerman2.R
 import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
-class ToggleDelegate : DebuggermanAdapterDelegate(R.layout.item_toggle) {
+class ToggleDelegate : DebuggermanAdapterDelegate(R.layout.item_debuggerman_toggle) {
 
     override fun createViewHolder(parent: ViewGroup): ViewHolder = ViewHolder(inflate(parent))
 
