@@ -13,9 +13,7 @@ class SampleDebugDialog : DebuggermanDialog() {
         DebuggermanItem.Toggle("Static toggle", "Static controls") {},
         DebuggermanItem.Button("Static button", "Static controls") {},
         DebuggermanSubtitle("Items without group"),
-        DebuggermanItem.Button("Static loose button I") {},
-        DebuggermanItem.Button("Static loose button II") {},
-        DebuggermanItem.Button("Static loose button III") {},
+        DebuggermanItem.Button("Static button without group") {},
         DebuggermanItem.Input("Static input", "Static controls") {},
         DebuggermanItem.Selector("Static selector", SelectorValue.values().toList(), "Static controls") {}
     )

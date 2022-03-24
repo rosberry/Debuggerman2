@@ -12,11 +12,11 @@ class DynamicFragment : SampleFragment(R.layout.fragment_dynamic) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity.addDebugItems(items)
+        DebuggermanAgent.add(items)
     }
 
     override fun onDestroy() {
+        DebuggermanAgent.remove(items)
         super.onDestroy()
-        activity.removeDebugItems(items)
     }
 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.rosberry.android.debuggerman2.R
 import com.rosberry.android.debuggerman2.entity.DebuggermanItem
+import com.rosberry.android.debuggerman2.extension.replace
 import com.rosberry.android.debuggerman2.ui.adapter.DelegatedDebugAdapter
 
 open class DebuggermanDialog : BottomSheetDialogFragment() {
@@ -31,13 +32,28 @@ open class DebuggermanDialog : BottomSheetDialogFragment() {
         view.findViewById<RecyclerView>(R.id.list_debug_item).adapter = debugAdapter
     }
 
+    internal fun add(item: DebuggermanItem) {
+        this.items.add(item)
+        debugAdapter.setItems(this.items)
+    }
+
     internal fun add(items: Collection<DebuggermanItem>) {
         this.items.addAll(0, items)
         debugAdapter.setItems(this.items)
     }
 
+    internal fun remove(item: DebuggermanItem) {
+        this.items.remove(item)
+        debugAdapter.setItems(this.items)
+    }
+
     internal fun remove(items: Collection<DebuggermanItem>) {
         this.items.removeAll(items)
+        debugAdapter.setItems(this.items)
+    }
+
+    internal fun replace(target: DebuggermanItem, item: DebuggermanItem) {
+        this.items.replace(target, item)
         debugAdapter.setItems(this.items)
     }
 }

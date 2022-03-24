@@ -29,7 +29,6 @@ class DebugAgentService : Service() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         stopForeground(true)
     }
 
