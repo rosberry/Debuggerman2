@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.core.app.NotificationCompat
+import com.rosberry.android.debuggerman2.R
 import kotlin.random.Random
 
 @SuppressLint("LaunchActivityFromNotification")
@@ -27,7 +28,7 @@ object Notification {
 
         return NotificationCompat.Builder(context, channelId)
             .setVisibility(NotificationCompat.VISIBILITY_SECRET)
-            .setSmallIcon(android.R.drawable.ic_menu_compass)
+            .setSmallIcon(R.drawable.ic_debuggerman_droid)
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentTitle("Application is running")
@@ -47,7 +48,7 @@ object Notification {
 
         return NotificationCompat.Builder(context, channelId)
             .setVisibility(NotificationCompat.VISIBILITY_SECRET)
-            .setSmallIcon(android.R.drawable.ic_menu_compass)
+            .setSmallIcon(R.drawable.ic_debuggerman_bug)
             .setCategory(NotificationCompat.CATEGORY_RECOMMENDATION)
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setContentTitle("Application crashed")

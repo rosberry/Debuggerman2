@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:background="@drawable/bg_debuggerman_selectable"
+    android:background="@drawable/bg_debuggerman_item"
     android:orientation="vertical"
     tools:ignore="HardcodedText">
 
@@ -17,13 +17,17 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Captured stack trace" />
 
-    <TextView android:id="@+id/btn_copy"
-        style="@style/Debuggerman2Item"
-        android:layout_width="wrap_content"
-        android:alpha="0.5"
-        android:text="Copy"
+    <ImageView android:id="@+id/btn_copy"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_debuggerman_button_r"
+        android:contentDescription="Copy"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_debuggerman_copy"
+        app:layout_constraintBottom_toBottomOf="@id/text_title"
+        app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/text_title" />
 
     <TextView android:id="@+id/text_stacktrace"
         style="@style/Debuggerman2Item"

@@ -3,6 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toggle"
     style="@style/Debuggerman2Item"
-    android:background="@drawable/bg_debuggerman_selectable"
+    android:background="@drawable/bg_debuggerman_item"
     android:theme="@style/Theme.Debuggerman2Toggle"
     tools:text="Toggle" />

@@ -6,6 +6,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.rosberry.android.debuggerman2.R
@@ -26,15 +27,17 @@ class StackTraceDelegate : DebuggermanAdapterDelegate(R.layout.item_debuggerman_
             private const val TEXT_EXPAND = "Expand stack trace"
         }
 
+        private val btnCopy: View = itemView.findViewById(R.id.btn_copy)
         private val textStackTrace: TextView = itemView.findViewById(R.id.text_stacktrace)
         private val textTitle: TextView = itemView.findViewById(R.id.text_title)
 
         private lateinit var item: DebuggermanItem.StackTrace
 
         init {
-            textStackTrace.setOnClickListener {
-                (it.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
+            btnCopy.setOnClickListener { button ->
+                (button.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
                     .setPrimaryClip(ClipData.newPlainText("Stack trace", item.stackTrace))
+                Toast.makeText(button.context, "Stack trace copied to clipboard!", Toast.LENGTH_SHORT).show()
             }
             textTitle.setOnClickListener {
                 item.isExpanded = !item.isExpanded
