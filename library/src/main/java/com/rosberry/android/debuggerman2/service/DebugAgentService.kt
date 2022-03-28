@@ -34,9 +34,20 @@ class DebugAgentService : Service() {
 
     override fun onBind(intent: Intent?): IBinder = Binder()
 
-    fun onServiceConnected(action: String) {
+    fun onConnected(action: String) {
         notificationManager.cancel(NOTIFICATION_CRASH_ID)
-        startForeground(NOTIFICATION_ID, Notification.connected(applicationContext, channelId, action))
+        startForeground(NOTIFICATION_ID, Notification.foreground(applicationContext, channelId, action))
+    }
+
+    fun onAppForeground(action: String) {
+        notificationManager.notify(NOTIFICATION_ID, Notification.foreground(applicationContext, channelId, action))
+    }
+
+    fun onAppBackground(activityClass: Class<Activity>) {
+        notificationManager.notify(
+            NOTIFICATION_ID,
+            Notification.background(applicationContext, channelId, activityClass)
+        )
     }
 
     fun onAppCrashed(activityClass: Class<Activity>, extras: Bundle) {

@@ -19,7 +19,7 @@ object Notification {
         get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) PendingIntent.FLAG_IMMUTABLE
         else 0
 
-    fun connected(
+    fun foreground(
         context: Context,
         channelId: String,
         openAction: String
@@ -30,10 +30,35 @@ object Notification {
             .setVisibility(NotificationCompat.VISIBILITY_SECRET)
             .setSmallIcon(R.drawable.ic_debuggerman_droid)
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentTitle("Application is running")
             .setContentText("Tap the notification to open debug menu")
             .setContentIntent(pendingIntent)
+            .setOnlyAlertOnce(true)
+            .build()
+    }
+
+    fun background(
+        context: Context,
+        channelId: String,
+        activityClass: Class<Activity>
+    ): Notification {
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            2,
+            Intent(context, activityClass).apply { flags = Intent.FLAG_ACTIVITY_SINGLE_TOP },
+            actionFlags
+        )
+
+        return NotificationCompat.Builder(context, channelId)
+            .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+            .setSmallIcon(R.drawable.ic_debuggerman_droid)
+            .setCategory(NotificationCompat.CATEGORY_SERVICE)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentTitle("Application is running in background")
+            .setContentText("Tap the notification to open app")
+            .setContentIntent(pendingIntent)
+            .setOnlyAlertOnce(true)
             .build()
     }
 

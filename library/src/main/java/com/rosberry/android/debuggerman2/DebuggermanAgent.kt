@@ -91,6 +91,8 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         when (event) {
             Lifecycle.Event.ON_CREATE -> onLifecycleCreate()
+            Lifecycle.Event.ON_RESUME -> connection.onResume()
+            Lifecycle.Event.ON_STOP -> connection.onStop()
             Lifecycle.Event.ON_DESTROY -> onLifecycleDestroy()
             else -> return
         }
@@ -142,7 +144,7 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
 
     private fun showDialog() {
         activity.supportFragmentManager.run {
-            if (findFragmentByTag(TAG_DIALOG) == null)
+            if (!isDestroyed && !isStateSaved && findFragmentByTag(TAG_DIALOG) == null)
                 dialogClass
                     .createInstance()
                     .apply { add(dynamicItems) }
@@ -150,17 +152,25 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
         }
     }
 
-    internal class Connection : ServiceConnection {
+    private inner class Connection : ServiceConnection {
 
         var service: DebugAgentService? = null
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             this.service = (service as DebugAgentService.Binder).service
-            this.service?.onServiceConnected(ACTION_OPEN)
+            this.service?.onConnected(ACTION_OPEN)
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
             this.service = null
+        }
+
+        fun onResume() {
+            this.service?.onAppForeground(ACTION_OPEN)
+        }
+
+        fun onStop() {
+            this.service?.onAppBackground(activity.javaClass)
         }
     }
 }
