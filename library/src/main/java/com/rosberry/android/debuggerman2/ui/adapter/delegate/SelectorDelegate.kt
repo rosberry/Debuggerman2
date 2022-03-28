@@ -12,7 +12,9 @@ class SelectorDelegate : DebuggermanAdapterDelegate(R.layout.item_debuggerman_se
     override fun createViewHolder(parent: ViewGroup): ViewHolder = ViewHolder(inflate(parent))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebuggermanItem) {
-        if (holder is ViewHolder && item is DebuggermanItem.Selector) holder.bind(item)
+        if (holder is ViewHolder && item is DebuggermanItem.Selector<out Any>) {
+            (item as? DebuggermanItem.Selector<Any>)?.let(holder::bind)
+        }
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -20,7 +22,7 @@ class SelectorDelegate : DebuggermanAdapterDelegate(R.layout.item_debuggerman_se
         private val label: TextView = itemView.findViewById(R.id.label)
         private val value: TextView = itemView.findViewById(R.id.value)
 
-        private lateinit var item: DebuggermanItem.Selector
+        private lateinit var item: DebuggermanItem.Selector<Any>
 
         init {
             itemView.setOnClickListener {
@@ -34,7 +36,7 @@ class SelectorDelegate : DebuggermanAdapterDelegate(R.layout.item_debuggerman_se
             }
         }
 
-        fun bind(item: DebuggermanItem.Selector) {
+        fun bind(item: DebuggermanItem.Selector<Any>) {
             this.item = item
             label.text = item.label
             value.text = item.selected.toString()

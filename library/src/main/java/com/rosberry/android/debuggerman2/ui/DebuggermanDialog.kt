@@ -56,4 +56,8 @@ open class DebuggermanDialog : BottomSheetDialogFragment() {
         this.items.replace(target, item)
         debugAdapter.setItems(this.items)
     }
+
+    internal fun update(item: DebuggermanItem) {
+        debugAdapter.updateItem(item)
+    }
 }

@@ -38,6 +38,11 @@ class DelegatedDebugAdapter(
         diffResult.dispatchUpdatesTo(this@DelegatedDebugAdapter)
     }
 
+    fun updateItem(item: DebuggermanItem) {
+        val index = this.items.indexOf(item)
+        if (index >= 0) notifyItemChanged(index)
+    }
+
     private fun List<DebuggermanItem>.insertGroupHeaders(): List<DebuggermanItem> {
         val groups = groupBy(DebuggermanItem::group)
         return mutableListOf<DebuggermanItem>().apply {

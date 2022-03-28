@@ -46,6 +46,8 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
 
         fun replace(target: DebuggermanItem, item: DebuggermanItem) = get()?.replace(target, item)
 
+        fun update(item: DebuggermanItem) = get()?.update(item)
+
         inline fun <reified T : DebuggermanDialog> init(activity: AppCompatActivity) {
             if (instance != null) Log.w(this::class.simpleName, instance!!.alreadyInitialized)
             else instance = DebuggermanAgent(activity, T::class)
@@ -117,6 +119,10 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
     private fun replace(target: DebuggermanItem, item: DebuggermanItem) {
         dynamicItems.replace(target, item)
         dialog?.replace(target, item)
+    }
+
+    private fun update(item: DebuggermanItem) {
+        dialog?.update(item)
     }
 
     private fun onLifecycleCreate() {

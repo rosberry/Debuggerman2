@@ -15,6 +15,6 @@ class SampleDebugDialog : DebuggermanDialog() {
         DebuggermanSubtitle("Items without group"),
         DebuggermanItem.Button("Static button without group") {},
         DebuggermanItem.Input("Static input", "Static controls") {},
-        DebuggermanItem.Selector("Static selector", SelectorValue.values().toList(), "Static controls") {}
+        DebuggermanItem.Selector(SelectorValue.values().asList(), "Static selector", "Static controls") {}
     )
 }

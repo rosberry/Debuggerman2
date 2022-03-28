@@ -43,12 +43,12 @@ open class DebuggermanItem(
         val onDone: (() -> Unit)? = null
     ) : DebuggermanItem(InputDelegate::class)
 
-    data class Selector(
+    data class Selector<T : Any>(
+        val items: List<T>,
         val label: String,
-        val items: List<Any>,
         override val group: String? = null,
-        var selected: Any = items[0],
-        val listener: (Any) -> Unit
+        var selected: T = items[0],
+        val listener: (T) -> Unit
     ) : DebuggermanItem(SelectorDelegate::class)
 
     data class StackTrace(
