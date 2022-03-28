@@ -53,6 +53,7 @@ open class DebuggermanItem(
 
     data class StackTrace(
         val stackTrace: String,
+        override val group: String?,
         var isExpanded: Boolean = false
-    ) : DebuggermanItem(StackTraceDelegate::class, "Stack trace")
+    ) : DebuggermanItem(StackTraceDelegate::class)
 }

@@ -22,11 +22,6 @@ class StackTraceDelegate : DebuggermanAdapterDelegate(R.layout.item_debuggerman_
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        companion object {
-            private const val TEXT_COLLAPSE = "Collapse stack trace"
-            private const val TEXT_EXPAND = "Expand stack trace"
-        }
-
         private val btnCopy: View = itemView.findViewById(R.id.btn_copy)
         private val textStackTrace: TextView = itemView.findViewById(R.id.text_stacktrace)
         private val textTitle: TextView = itemView.findViewById(R.id.text_title)
@@ -35,9 +30,17 @@ class StackTraceDelegate : DebuggermanAdapterDelegate(R.layout.item_debuggerman_
 
         init {
             btnCopy.setOnClickListener { button ->
-                (button.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
-                    .setPrimaryClip(ClipData.newPlainText("Stack trace", item.stackTrace))
-                Toast.makeText(button.context, "Stack trace copied to clipboard!", Toast.LENGTH_SHORT).show()
+                (button.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(
+                    ClipData.newPlainText(
+                        button.resources.getString(R.string.debuggerman_stacktrace_title),
+                        item.stackTrace
+                    )
+                )
+                Toast.makeText(
+                    button.context,
+                    button.resources.getString(R.string.debuggerman_stacktrace_copied),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             textTitle.setOnClickListener {
                 item.isExpanded = !item.isExpanded
@@ -53,7 +56,10 @@ class StackTraceDelegate : DebuggermanAdapterDelegate(R.layout.item_debuggerman_
 
         private fun update(isExpanded: Boolean) {
             textStackTrace.updateLayoutParams { height = if (isExpanded) ViewGroup.LayoutParams.WRAP_CONTENT else 0 }
-            textTitle.text = if (isExpanded) TEXT_COLLAPSE else TEXT_EXPAND
+            textTitle.text = itemView.resources.getString(
+                if (isExpanded) R.string.debuggerman_stacktrace_collapse
+                else R.string.debuggerman_stacktrace_expand
+            )
         }
     }
 }

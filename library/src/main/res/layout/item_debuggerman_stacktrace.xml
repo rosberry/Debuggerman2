@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:background="@drawable/bg_debuggerman_item"
-    android:orientation="vertical"
-    tools:ignore="HardcodedText">
+    android:orientation="vertical">
 
     <TextView android:id="@+id/text_title"
         style="@style/Debuggerman2Item"
@@ -21,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/bg_debuggerman_button_r"
-        android:contentDescription="Copy"
+        android:contentDescription="@string/debuggerman_stacktrace_copy"
         android:scaleType="centerInside"
         android:src="@drawable/ic_debuggerman_copy"
         app:layout_constraintBottom_toBottomOf="@id/text_title"

@@ -80,7 +80,14 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
                 defaultExceptionHandler?.uncaughtException(thread, throwable)
             }
         }
-        activity.intent.getStringExtra(KEY_STACKTRACE)?.let { dynamicItems.add(DebuggermanItem.StackTrace(it)) }
+        activity.intent.getStringExtra(KEY_STACKTRACE)?.let { stackTrace ->
+            dynamicItems.add(
+                DebuggermanItem.StackTrace(
+                    stackTrace,
+                    activity.getString(R.string.debuggerman_stacktrace_title)
+                )
+            )
+        }
         activity.lifecycle.addObserver(this)
     }
 
