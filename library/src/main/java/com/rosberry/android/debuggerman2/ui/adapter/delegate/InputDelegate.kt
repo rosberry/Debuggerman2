@@ -31,7 +31,7 @@ class InputDelegate : DebuggermanAdapterDelegate(R.layout.item_debuggerman_input
             }
             input.setOnEditorActionListener { input, actionId, _ ->
                 if (actionId == item.imeAction) {
-                    item.onDone?.invoke()
+                    item.onDone?.invoke(input.text)
                     input.run {
                         clearFocus()
                         (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)

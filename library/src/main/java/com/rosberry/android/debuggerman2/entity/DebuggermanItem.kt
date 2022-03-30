@@ -40,7 +40,7 @@ open class DebuggermanItem(
         var text: CharSequence? = null,
         val imeAction: Int = EditorInfo.IME_ACTION_DONE,
         val onTextChanged: ((CharSequence?) -> Unit)? = null,
-        val onDone: (() -> Unit)? = null
+        val onDone: ((CharSequence?) -> Unit)? = null
     ) : DebuggermanItem(InputDelegate::class)
 
     data class Selector<T : Any>(
