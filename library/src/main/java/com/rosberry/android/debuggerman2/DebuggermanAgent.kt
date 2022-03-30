@@ -26,9 +26,8 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
 ) : BroadcastReceiver(), LifecycleEventObserver {
 
     companion object {
-        private const val ACTION_OPEN = "${BuildConfig.LIBRARY_PACKAGE_NAME}.action.open"
-        private const val KEY_STACKTRACE = "${BuildConfig.LIBRARY_PACKAGE_NAME}.key.stacktrace"
-        private const val TAG_DIALOG = "${BuildConfig.LIBRARY_PACKAGE_NAME}.tag.dialog"
+        private const val KEY_STACKTRACE = "${BuildConfig.LIBRARY_PACKAGE_NAME}.stacktrace"
+        private const val TAG_DIALOG = "${BuildConfig.LIBRARY_PACKAGE_NAME}.dialog"
 
         @PublishedApi
         internal var instance: DebuggermanAgent<out DebuggermanDialog>? = null
@@ -66,6 +65,8 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
     private val dialog: DebuggermanDialog?
         get() = activity.supportFragmentManager.findFragmentByTag(TAG_DIALOG) as? DebuggermanDialog
 
+    private val actionOpen: String by lazy { "${activity.packageName}.action.open" }
+
     private val connection: Connection by lazy { Connection() }
 
     private val dynamicItems: MutableList<DebuggermanItem> by lazy { mutableListOf() }
@@ -92,7 +93,7 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent?.action == ACTION_OPEN) showDialog()
+        if (intent?.action == actionOpen) showDialog()
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -135,7 +136,7 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
     }
 
     private fun onLifecycleCreate() {
-        activity.registerReceiver(this, IntentFilter(ACTION_OPEN))
+        activity.registerReceiver(this, IntentFilter(actionOpen))
         activity.bindService(
             Intent(activity, DebugAgentService::class.java),
             connection,
@@ -165,7 +166,7 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             this.service = (service as DebugAgentService.Binder).service
-            this.service?.onConnected(ACTION_OPEN)
+            this.service?.onConnected(actionOpen)
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -173,7 +174,7 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
         }
 
         fun onResume() {
-            this.service?.onAppForeground(ACTION_OPEN)
+            this.service?.onAppForeground(actionOpen)
         }
 
         fun onStop() {
