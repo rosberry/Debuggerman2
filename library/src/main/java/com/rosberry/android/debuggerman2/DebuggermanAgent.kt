@@ -155,7 +155,7 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
             if (!isDestroyed && !isStateSaved && findFragmentByTag(TAG_DIALOG) == null)
                 dialogClass
                     .createInstance()
-                    .apply { add(dynamicItems) }
+                    .applyOnCreate { add(dynamicItems) }
                     .show(this, TAG_DIALOG)
         }
     }

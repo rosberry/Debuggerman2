@@ -18,9 +18,12 @@ open class DebuggermanDialog : BottomSheetDialogFragment() {
 
     private val debugAdapter: DelegatedDebugAdapter by lazy { DelegatedDebugAdapter(items) }
 
+    private var onCreateAction: (DebuggermanDialog.() -> Unit)? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NO_FRAME, R.style.Theme_Debuggerman2Dialog)
+        onCreateAction?.invoke(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,6 +33,11 @@ open class DebuggermanDialog : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<RecyclerView>(R.id.list_debug_item).adapter = debugAdapter
+    }
+
+    fun applyOnCreate(block: DebuggermanDialog.() -> Unit): DebuggermanDialog {
+        this.onCreateAction = block
+        return this
     }
 
     internal fun add(item: DebuggermanItem) {
