@@ -20,13 +20,14 @@ import com.rosberry.android.debuggerman2.ui.DebuggermanDialog
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
+internal const val KEY_STACKTRACE = "${BuildConfig.LIBRARY_PACKAGE_NAME}.stacktrace"
+
 class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor(
     private val activity: AppCompatActivity,
     private val dialogClass: KClass<T>
 ) : BroadcastReceiver(), LifecycleEventObserver {
 
     companion object {
-        private const val KEY_STACKTRACE = "${BuildConfig.LIBRARY_PACKAGE_NAME}.stacktrace"
         private const val TAG_DIALOG = "${BuildConfig.LIBRARY_PACKAGE_NAME}.dialog"
 
         @PublishedApi
@@ -80,14 +81,6 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
                 )
                 defaultExceptionHandler?.uncaughtException(thread, throwable)
             }
-        }
-        activity.intent.getStringExtra(KEY_STACKTRACE)?.let { stackTrace ->
-            dynamicItems.add(
-                DebuggermanItem.StackTrace(
-                    stackTrace,
-                    activity.getString(R.string.debuggerman_stacktrace_title)
-                )
-            )
         }
         activity.lifecycle.addObserver(this)
     }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.rosberry.android.debuggerman2.KEY_STACKTRACE
 import com.rosberry.android.debuggerman2.R
 import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 import com.rosberry.android.debuggerman2.extension.replace
@@ -16,6 +17,11 @@ open class DebuggermanDialog : BottomSheetDialogFragment() {
 
     protected open val items: MutableList<DebuggermanItem> = mutableListOf()
 
+    private val stackTraceItem: DebuggermanItem.StackTrace?
+        get() = activity?.intent?.getStringExtra(KEY_STACKTRACE)?.let { stackTrace ->
+            DebuggermanItem.StackTrace(stackTrace, getString(R.string.debuggerman_stacktrace_title))
+        }
+
     private val debugAdapter: DelegatedDebugAdapter by lazy { DelegatedDebugAdapter(items) }
 
     private var onCreateAction: (DebuggermanDialog.() -> Unit)? = null
@@ -23,6 +29,7 @@ open class DebuggermanDialog : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NO_FRAME, R.style.Theme_Debuggerman2Dialog)
+        stackTraceItem?.let { item -> this.items.add(0, item) }
         onCreateAction?.invoke(this)
     }
 
