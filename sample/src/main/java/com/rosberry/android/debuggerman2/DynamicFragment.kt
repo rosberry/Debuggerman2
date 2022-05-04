@@ -1,9 +1,10 @@
 package com.rosberry.android.debuggerman2
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 
-class DynamicFragment : SampleFragment(R.layout.fragment_dynamic) {
+class DynamicFragment : Fragment(R.layout.fragment_dynamic) {
 
     private enum class DynamicSelectorValue {
         HIDDEN, SHOWN

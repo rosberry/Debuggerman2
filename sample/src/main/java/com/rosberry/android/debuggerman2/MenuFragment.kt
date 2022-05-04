@@ -2,12 +2,13 @@ package com.rosberry.android.debuggerman2
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MenuFragment : SampleFragment(R.layout.fragment_menu) {
+class MenuFragment : Fragment(R.layout.fragment_menu) {
 
     private var delayedJob: Job? = null
 
