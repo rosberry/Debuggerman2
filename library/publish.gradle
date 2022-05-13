@@ -1,0 +1,52 @@
+android {
+    publishing {
+        singleVariant('release')
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = 'com.rosberry.android'
+                artifactId = 'debuggerman2'
+                version = '1.0.0'
+
+                from components.release
+
+                pom {
+                    name = 'Debuggerman 2'
+                    url = 'https://github.com/rosberry/Debuggerman2'
+
+                    developers {
+                        developer {
+                            id = 'Rosberry'
+                            name = 'Rosberry'
+                        }
+                    }
+
+                    licenses {
+                        license {
+                            name = 'MIT'
+                            url = 'https://github.com/rosberry/Debuggerman2/blob/master/LICENSE'
+                        }
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                def releasesUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+                def snapshotsUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+
+                url = project.hasProperty('release') ? releasesUrl : snapshotsUrl
+            }
+        }
+        
+        signing {
+            useInMemoryPgpKeys(System.env.PUBLISH_KEY, System.env.PUBLISH_PASSWORD)
+            sign publications.release
+        }
+    }
+}

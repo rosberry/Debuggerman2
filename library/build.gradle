@@ -1,16 +1,23 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
+    id 'signing'
 }
 
+apply from: 'publish.gradle'
+
 android {
-    namespace = "com.rosberry.android.debuggerman2"
+    namespace = 'com.rosberry.android.debuggerman2'
 
     compileSdk 31
 
     defaultConfig {
         minSdk 21
         targetSdk 31
+        aarMetadata {
+            minCompileSdk 31
+        }
     }
 
     buildTypes {
@@ -34,5 +41,5 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.6.10'
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.6.0'
 }
