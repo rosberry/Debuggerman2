@@ -19,7 +19,7 @@
     <ImageView android:id="@+id/btn_copy"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/bg_debuggerman_button_r"
+        android:background="@drawable/bg_debuggerman_button_icon"
         android:contentDescription="@string/debuggerman_stacktrace_copy"
         android:scaleType="centerInside"
         android:src="@drawable/ic_debuggerman_copy"
