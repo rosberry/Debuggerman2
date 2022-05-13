@@ -41,11 +41,16 @@ afterEvaluate {
                 def snapshotsUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
 
                 url = project.hasProperty('release') ? releasesUrl : snapshotsUrl
+
+                credentials {
+                    username = System.env.NEXUS_USER
+                    password = System.env.NEXUS_PASSWORD
+                }
             }
         }
         
         signing {
-            useInMemoryPgpKeys(System.env.PUBLISH_KEY, System.env.PUBLISH_PASSWORD)
+            useInMemoryPgpKeys(System.env.PUBLISH_KEY, System.env.PUBLISH_KEY_PASSWORD)
             sign publications.release
         }
     }
