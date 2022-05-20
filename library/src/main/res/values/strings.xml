@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="debuggerman_stacktrace_collapse">Collapse stack trace</string>
+    <string name="debuggerman_stacktrace_copied">Stack trace copied to clipboard!</string>
+    <string name="debuggerman_stacktrace_copy">Copy</string>
+    <string name="debuggerman_stacktrace_expand">Expand stack trace</string>
+    <string name="debuggerman_stacktrace_title">Stack trace</string>
+</resources>

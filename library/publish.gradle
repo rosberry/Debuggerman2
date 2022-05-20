@@ -1,0 +1,67 @@
+android {
+    publishing {
+        singleVariant('release')
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = 'com.rosberry.android'
+                artifactId = 'debuggerman2'
+                version = '1.0.0'
+
+                from components.release
+
+                pom {
+                    name = 'Debuggerman 2'
+                    url = 'https://github.com/rosberry/Debuggerman2'
+                    description = 'Service-based agent providing access to configurable testing menu'
+
+                    developers {
+                        developer {
+                            id = 'Rosberry'
+                            name = 'Rosberry'
+                        }
+                    }
+
+                    licenses {
+                        license {
+                            name = 'MIT'
+                            url = 'https://github.com/rosberry/Debuggerman2/blob/master/LICENSE'
+                        }
+                    }
+
+                    scm {
+                        url = 'https://github.com/rosberry/Debuggerman2'
+                        connection = 'scm:git@github.com:rosberry/Debuggerman2.git'
+                        developerConnection = 'scm:git@github.com:rosberry/Debuggerman2.git'
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                def releasesUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+                def snapshotsUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+
+                url = version.endsWith("SNAPSHOT") ? snapshotsUrl : releasesUrl
+
+                credentials {
+                    username = System.env.NEXUS_USER
+                    password = System.env.NEXUS_PASSWORD
+                }
+            }
+        }
+        
+        signing {
+            def signingKey = System.env.PUBLISH_KEY
+            def signingPassword = System.env.PUBLISH_KEY_PASSWORD
+
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign publications.release
+        }
+    }
+}
