@@ -1,6 +1,8 @@
 android {
     publishing {
-        singleVariant('release')
+        singleVariant('release') {
+            withSourcesJar()
+        }
     }
 }
 
@@ -10,7 +12,7 @@ afterEvaluate {
             release(MavenPublication) {
                 groupId = 'com.rosberry.android'
                 artifactId = 'debuggerman2'
-                version = '1.0.0'
+                version = '1.0.1'
 
                 from components.release
 
