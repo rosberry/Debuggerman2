@@ -1,14 +1,12 @@
-# Product Name
+# Debuggerman 2
 
-One to two paragraph statement about your product and what it does.
+Service-based agent providing access to configurable testing menu for single-activity applications.
 
 ## Features
 
-- Feature 1
-- Feature 2
-- Feature 3
-- Feature 4
-- Feature 5
+- Quick access to testing menu with notification
+- Dynamic elements addition in runtime
+- Stacktrace capturing in case of application crash
 
 ## Requirements
 
@@ -20,26 +18,75 @@ One to two paragraph statement about your product and what it does.
 Add a dependency
 
 ```groovy
-    implementation 'groupId.username:libname:version'
+implementation 'com.rosberry.android:debuggerman2:1.0.1'
 ```
 
 ## Usage
 
-### Feature 1 title
+### Initialization
+
+Initialize agent with `DebuggermanDialog` parameter in activity `onCreate` method:
 
 ```kotlin
-   // Code sample 
+override fun onCreate(savedInstanceState: Bundle?) {
+    DebuggermanAgent.init<DebuggermanDialog>(this)
+
+    super.onCreate(savedInstanceState)
+    
+    /* ... */
+}
 ```
 
-Feature usage description, commentaries and notes
+### Components customization
 
-### Feature 2 title
+Create data class that will hold custom component and corresponding adapter delegate for the dialog:
 
 ```kotlin
-   // Code sample 
+data class DebuggermanSubtitle(
+    val label: String,
+    override val group: String? = null
+) : DebuggermanItem(DebuggermanSubtitleDelegate::class)
+
+class DebuggermanSubtitleDelegate : DebuggermanAdapterDelegate(R.layout.item_subtitle) {
+
+    override fun createViewHolder(parent: ViewGroup) = object : RecyclerView.ViewHolder(inflate(parent)) {}
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DebuggermanItem) {
+        holder.itemView.findViewById<TextView>(R.id.label)?.text = (item as? DebuggermanSubtitle)?.label
+    }
+}
 ```
 
-Feature usage description, commentaries and notes
+### Dialog customization
+
+Override `DebuggermanDialog` with custom implementation and overridden `items` collection for dialog with static set of components:
+
+```kotlin
+class DerivedDebugDialog : DebuggermanDialog() {
+
+    override val items: MutableList<DebuggermanItem> = mutableListOf(
+        /* ... */
+    )
+}
+```
+
+or add required components dynamically.
+
+### Dynamic components addition / removal
+
+To add, remove or replace specific item within dialog component list, use corresponding static method of `DebuggermanAgent` class:
+
+```kotlin
+val item: DebuggermanItem = /* ... */
+
+DebuggermanAgent.add(item)
+
+DebuggermanAgent.remove(item)
+
+DebuggermanAgent.replace(target, item)
+```
+
+**Note**: Since in most cases code enclosed into component's lambda will be related to some scope, don't forget to remove added items when their scope is destroying to prevent memory leaks.
 
 ## About
 
@@ -47,7 +94,8 @@ Feature usage description, commentaries and notes
 
 This project is owned and maintained by [Rosberry](http://rosberry.com). We build mobile apps for users worldwide 🌏.
 
-Check out our [open source projects](https://github.com/rosberry), read [our blog](https://medium.com/@Rosberry) or give us a high-five on 🐦 [@rosberryapps](http://twitter.com/RosberryApps).
+Check out our [open source projects](https://github.com/rosberry), read [our blog](https://medium.com/@Rosberry) or give
+us a high-five on 🐦 [@rosberryapps](http://twitter.com/RosberryApps).
 
 ## License
 
