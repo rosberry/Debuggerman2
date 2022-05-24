@@ -36,18 +36,45 @@ class DebuggermanAgent<T : DebuggermanDialog> @PublishedApi internal constructor
         private val notInitialized: String
             get() = "not initialized - call ${DebuggermanAgent::class.simpleName}::init first!"
 
+        /**
+         * Add provided item to dynamic items collection.
+         */
         fun add(item: DebuggermanItem) = get()?.add(item)
 
+        /**
+         * Add provided items to dynamic items collection.
+         */
         fun add(items: Collection<DebuggermanItem>) = get()?.add(items)
 
+        /**
+         * Remove provided item from dynamic items collection.
+         */
         fun remove(item: DebuggermanItem) = get()?.remove(item)
 
+        /**
+         * Remove provided items from dynamic items collection.
+         */
         fun remove(items: Collection<DebuggermanItem>) = get()?.remove(items)
 
+        /**
+         * Replace `target` with `item` in dynamic items collection.
+         * If the dialog is visible, changes will be applied immediately.
+         */
         fun replace(target: DebuggermanItem, item: DebuggermanItem) = get()?.replace(target, item)
 
+        /**
+         * Force refresh provided [DebuggermanItem]'s view.
+         *
+         * Has no effect if dialog is not visible or [DebuggermanDialog.items] doesn't contain provided item.
+         */
         fun update(item: DebuggermanItem) = get()?.update(item)
 
+        /**
+         * Initialize new [DebuggermanAgent] instance that wraps default exception handler to intercept stacktrace
+         * in case of application crash and observes provided activity lifecycle to handle service accordingly.
+         *
+         * If DebuggermanAgent instance already exists send WARN log message with details.
+         */
         inline fun <reified T : DebuggermanDialog> init(activity: AppCompatActivity) {
             if (instance != null) Log.w(this::class.simpleName, instance!!.alreadyInitialized)
             else instance = DebuggermanAgent(activity, T::class)
