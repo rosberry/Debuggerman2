@@ -25,7 +25,19 @@ implementation 'com.rosberry.android:debuggerman2:1.0.1'
 
 ### Initialization
 
-Initialize agent with `DebuggermanDialog` parameter in activity `onCreate` method:
+Declare a service in application manifest:
+
+```xml
+<manifest ... >
+    <application ... >
+
+        <service android:name="com.rosberry.android.debuggerman2.service.DebugAgentService"
+            android:exported="false" />
+    </application>
+</manifest>
+```
+
+Initialize agent with `DebuggermanDialog` (or derived) parameter in activity `onCreate` method:
 
 ```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +51,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 ### Components customization
 
-Create data class that will hold custom component and corresponding adapter delegate for the dialog:
+Extend `DebuggermanItem` with data class that will hold custom component and corresponding adapter delegate for the dialog:
 
 ```kotlin
 data class DebuggermanSubtitle(
@@ -59,7 +71,7 @@ class DebuggermanSubtitleDelegate : DebuggermanAdapterDelegate(R.layout.item_sub
 
 ### Dialog customization
 
-Override `DebuggermanDialog` with custom implementation and overridden `items` collection for dialog with static set of components:
+Extend `DebuggermanDialog` with required implementation and overridden `items` collection for dialog with static set of components:
 
 ```kotlin
 class DerivedDebugDialog : DebuggermanDialog() {
@@ -74,7 +86,7 @@ or add required components dynamically.
 
 ### Dynamic components addition / removal
 
-To add, remove or replace specific item within dialog component list, use corresponding static method of `DebuggermanAgent` class:
+To add, remove or replace specific item within dialog component list, use corresponding static methods of `DebuggermanAgent` class:
 
 ```kotlin
 val item: DebuggermanItem = /* ... */
