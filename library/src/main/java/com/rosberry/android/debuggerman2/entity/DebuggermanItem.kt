@@ -6,6 +6,7 @@ import com.rosberry.android.debuggerman2.ui.adapter.delegate.ButtonDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.DebuggermanAdapterDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.InputDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.SelectorDelegate
+import com.rosberry.android.debuggerman2.ui.adapter.delegate.SliderDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.StackTraceDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.TitleDelegate
 import com.rosberry.android.debuggerman2.ui.adapter.delegate.ToggleDelegate
@@ -56,4 +57,11 @@ open class DebuggermanItem(
         override val group: String?,
         var isExpanded: Boolean = false
     ) : DebuggermanItem(StackTraceDelegate::class)
+
+    data class Slider(
+        val initValue: Float,
+        override val group: String?,
+        val denormalizer: (Float) -> Int,
+        val listener: (Int) -> Unit
+    ) : DebuggermanItem(SliderDelegate::class)
 }

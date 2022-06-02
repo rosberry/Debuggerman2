@@ -1,7 +1,9 @@
 package com.rosberry.android.debuggerman2
 
+import android.util.Log
 import com.rosberry.android.debuggerman2.entity.DebuggermanItem
 import com.rosberry.android.debuggerman2.ui.DebuggermanDialog
+import kotlin.math.roundToInt
 
 class SampleDebugDialog : DebuggermanDialog() {
 
@@ -15,6 +17,11 @@ class SampleDebugDialog : DebuggermanDialog() {
         DebuggermanSubtitle("Items without group"),
         DebuggermanItem.Button("Static button without group") {},
         DebuggermanItem.Input("Static input", "Static controls") {},
-        DebuggermanItem.Selector(SelectorValue.values().asList(), "Static selector", "Static controls") {}
+        DebuggermanItem.Selector(SelectorValue.values().asList(), "Static selector", "Static controls") {},
+        DebuggermanItem.Slider(0.5F, "Static controls", this::denormalizeSliderValue) {
+            Log.d("Slider", "Value: $it")
+        }
     )
+
+    private fun denormalizeSliderValue(normalizedValue: Float): Int = ((normalizedValue - 0.5F) * 400).roundToInt()
 }

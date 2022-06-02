@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_debuggerman_item">
+
+    <com.google.android.material.slider.Slider android:id="@+id/slider"
+        style="@style/Debuggerman2Item"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:value="0"
+        android:valueFrom="0"
+        android:valueTo="1" />
+
+    <TextView android:id="@+id/value"
+        style="@style/Debuggerman2Item"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:ems="4"
+        tools:text="100" />
+
+</LinearLayout>
