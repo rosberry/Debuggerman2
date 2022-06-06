@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
 import com.google.android.material.slider.Slider.OnChangeListener
 import com.rosberry.android.debuggerman2.R
@@ -36,8 +35,8 @@ class SliderDelegate : DebuggermanAdapterDelegate(R.layout.item_debuggerman_slid
 
         fun bind(item: DebuggermanItem.Slider) {
             this.item = item
-            slider.value = item.initValue
-            value.text = item.formatter(item.initValue)
+            slider.value = item.value
+            value.text = item.formatter(item.value)
         }
     }
 }

@@ -59,7 +59,7 @@ open class DebuggermanItem(
     ) : DebuggermanItem(StackTraceDelegate::class)
 
     data class Slider(
-        var initValue: Float = 0.5F,
+        var value: Float = 0F,
         override val group: String?,
         val formatter: (Float) -> CharSequence,
         val listener: (Float, Boolean) -> Unit
