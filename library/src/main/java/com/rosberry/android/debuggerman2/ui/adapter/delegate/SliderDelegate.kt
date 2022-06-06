@@ -28,20 +28,16 @@ class SliderDelegate : DebuggermanAdapterDelegate(R.layout.item_debuggerman_slid
         private lateinit var item: DebuggermanItem.Slider
 
         init {
-            slider.addOnChangeListener(OnChangeListener { _, value, _ ->
-                val denormalizedValue = item.denormalizer(value)
-                this.value.text = denormalizedValue.toString()
-                item.listener(denormalizedValue)
+            slider.addOnChangeListener(OnChangeListener { _, value, fromUser ->
+                this.value.text = item.formatter(value)
+                item.listener(value, fromUser)
             })
         }
 
         fun bind(item: DebuggermanItem.Slider) {
             this.item = item
-            this.item.apply {
-                slider.value = initValue
-                slider.labelBehavior = LabelFormatter.LABEL_GONE
-                value.text = denormalizer(initValue).toString()
-            }
+            slider.value = item.initValue
+            value.text = item.formatter(item.initValue)
         }
     }
 }

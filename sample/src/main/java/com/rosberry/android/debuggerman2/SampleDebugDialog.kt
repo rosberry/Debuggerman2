@@ -18,10 +18,11 @@ class SampleDebugDialog : DebuggermanDialog() {
         DebuggermanItem.Button("Static button without group") {},
         DebuggermanItem.Input("Static input", "Static controls") {},
         DebuggermanItem.Selector(SelectorValue.values().asList(), "Static selector", "Static controls") {},
-        DebuggermanItem.Slider(0.5F, "Static controls", this::denormalizeSliderValue) {
-            Log.d("Slider", "Value: $it")
+        DebuggermanItem.Slider(0.5F, "Static controls", this::formatSliderValue) { value, _ ->
+            Log.d("Slider", "Value: $value")
         }
     )
 
-    private fun denormalizeSliderValue(normalizedValue: Float): Int = ((normalizedValue - 0.5F) * 400).roundToInt()
+    private fun formatSliderValue(normalizedValue: Float): CharSequence =
+        ((normalizedValue - 0.5F) * 400).roundToInt().toString()
 }
