@@ -61,7 +61,7 @@ class DebugAgentService : Service() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
         notificationManager.createNotificationChannel(
-            NotificationChannel(channelId, "Debug dialog", NotificationManager.IMPORTANCE_HIGH)
+            NotificationChannel(channelId, "Debug dialog", NotificationManager.IMPORTANCE_DEFAULT)
         )
     }
 
